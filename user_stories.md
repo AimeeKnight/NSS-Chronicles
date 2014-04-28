@@ -5,7 +5,7 @@ As the nss president<br />
 In order for people to research students at NSS</br>
 I want to create a personal profile for each student with their project urls
 
-  - User runs `nss add student <first name/last name/cohort/project url 1/project url 2>`
+  - User runs `nss add student <first name/last name/cohort/project url>`
   - The Student's record is then added to the list of all students
   - After saving, the user is given a confirmation message
 
