@@ -27,7 +27,7 @@ To view a list of all cohorts:
 
 To add a new student:
 
-`> nss add student -f` "First Name", -l "Last Name", -a "True", -c "Cohort Id", -p "Final Project URL"
+`> nss add student -f "First Name", -l "Last Name", -a "True", -c "Cohort Id", -p "Final Project URL"`
 
 To view a list of all students:
 
