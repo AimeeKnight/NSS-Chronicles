@@ -1,4 +1,4 @@
-User Stories for nss Chronicles
+User Stories for NSS Chronicles
 ==============================
 
 As the nss president<br />
@@ -7,6 +7,16 @@ I want to create a personal profile for each student with their project url
 
   - User runs `nss add student <first name/last name/cohort/project url>`
   - The Student record is then added to the list of all students
+  - After saving, the user is given a confirmation message
+
+<hr />
+
+As the nss president<br />
+In order to keep a student profile current<br />
+I want to be able to change their status to alumni
+
+  - User runs `nss current student list` to see the list of all students without alumni status (if needed)
+  - User runs `nss set alumni <first name/last name>`
   - After saving, the user is given a confirmation message
 
 <hr />
@@ -21,21 +31,11 @@ I want to be able to search all students names alphebetically
 <hr />
 
 As the nss president<br />
-In order to see the profile of an individual students<br />
+In order to see the profile of an individual student<br />
 I want to be able to look up a student by their first and last name
 
   - User runs `nss student search <first name/last name>`
   - The individually searched student record is returned
-
-<hr />
-
-As the nss president<br />
-In order to keep a student profile current<br />
-I want to be able to change their status to alumni
-
-  - User runs `nss current student list` to see the list of all students without alumni status
-  - User runs `nss set alumni <first name/last name>`
-  - After saving, the user is given a confirmation message
 
 <hr />
 
