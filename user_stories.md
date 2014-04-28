@@ -1,7 +1,7 @@
 User Stories for NSS Chronicles
 ==============================
 
-### Cohorts Model
+### Cohort Model
 
 As the NSS president<br />
 In order to separate students by cohort and track cohort details<br />
@@ -30,7 +30,7 @@ I want to be able to look up a cohort by title
   - The individually searched cohort record is returned
   - If the query does not return any results, the user will be given a default empty result message
 
-### Students Model
+### Student Model
 
 As the NSS president<br />
 In order for people to research students at NSS</br>
@@ -99,7 +99,7 @@ I want to be able to delete a student who will not be graduating.
   - User runs `nss student delete <student id>`
   - After saving, the user is given a confirmation message
 
-### Projects Model
+### Project Model
 
 As the NSS president<br />
 In order for people to research student projects at NSS</br>
