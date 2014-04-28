@@ -15,11 +15,11 @@ Clone this repo
 
 ## Usage
 
-Planned usage is as follows:
+Planned usage examples are as follows:
 
 To add a new cohort:
 
-`> nss add cohort -n "Name", -t "Technology1, Technology2", -d "Term Period"`
+`> nss add student <first name/last name/cohort id>`
 
 To view a list of all cohorts:
 
@@ -27,7 +27,7 @@ To view a list of all cohorts:
 
 To add a new student:
 
-`> nss add student -f "First Name", -l "Last Name", -a "True", -c "Cohort Id", -p "Final Project URL"`
+`> nss add student <first name/last name/cohort id>`
 
 To view a list of all students:
 
@@ -35,7 +35,7 @@ To view a list of all students:
 
 To delete a student:
 
-`nss delete "First Name, Last Name"`
+`> nss student delete <student id>`
 
 ## License
 
