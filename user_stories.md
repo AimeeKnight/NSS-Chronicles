@@ -15,7 +15,7 @@ I want to be able to create a new cohort
 
 As the NSS president<br />
 In order to see all cohorts<br />
-I want to be able to search for all chorts
+I want to be able to search for all cohorts
 
   - User runs `nss cohort list`
   - The list of all cohorts is returned
@@ -28,7 +28,7 @@ I want to be able to look up a cohort by title
 
   - User runs `nss cohort search <title>`
   - The individually searched cohort record is returned
-  - If the query does not retuan any results, the user will be given a default empty result message
+  - If the query does not return any results, the user will be given a default empty result message
 
 ### Students Model
 
@@ -37,7 +37,7 @@ In order for people to research students at NSS</br>
 I want to create a personal profile for each student with their github url, and have a default alumni column set to false
 
   - User runs `nss add student <first name/last name/cohort id>`
-  - The Student record is then added to the list of all students
+  - The student record is then added to the list of all students
   - After saving, the user is given a confirmation message
 
 <hr />
@@ -53,18 +53,18 @@ I want to be able to change a student status to alumni
 <hr />
 
 As the NSS president<br />
-In order to see a list of first and last names for all students sorted by first name in alphebetical order<br />
-I want to be able to search all students and have their names returned alphebetically by first name
+In order to see a list of first and last names for all students sorted by first name, in alphabetical order<br />
+I want to be able to search all students and have their names returned alphabetically by first name
 
   - User runs `nss student list`
-  - A list of students with their first and last name is returned in alphebetical order by first name
+  - A list of students with their first and last name is returned in alphabetical order by first name
   - If the query does not return any results, the user will be given a default empty result message
 
 <hr />
 
 As the NSS president<br />
 In order to see the profile of an individual student<br />
-I want to be able to look up a student by a student id
+I want to be able to look up a student by their student id
 
   - User runs `nss student search <student id>`
   - The individual student record is returned
@@ -87,7 +87,7 @@ I want to be able to look up a cohort and see all the students that were members
 
   - User runs `nss student search <cohort id>`
   - The individually searched cohort record is returned
-  - If the query does not retuan any results, the user will be given a default empty result message
+  - If the query does not return any results, the user will be given a default empty result message
 
 <hr />
 
@@ -103,10 +103,10 @@ I want to be able to delete a student who will not be graduating.
 
 As the NSS president<br />
 In order for people to research student projects at NSS</br>
-I want to create a record for each student project with a hosted url and github url
+I want to create a record for each student project with a hosted url and GitHub url
 
   - User runs `nss add project <title/primary language/student id/github url/hosted url>`
-  - The Project record is then added to the list of all projects
+  - The project record is then added to the list of all projects
   - After saving, the user is given a confirmation message
 
 <hr />
