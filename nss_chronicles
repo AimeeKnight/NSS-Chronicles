@@ -18,7 +18,7 @@ def get_menu_selection
   return unless input
   input.chomp!
   if input == "1"
-    puts "Please enter the cohort as: title, primary languages, term"
+    puts "Please enter the cohort as: title, language 1/language 2, term"
     values = gets
     return unless values
     values = values.chomp.split(",").map(&:strip)

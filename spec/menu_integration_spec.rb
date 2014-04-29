@@ -18,7 +18,7 @@ EOS
   context "the user selects 1" do
     let(:shell_output){ run_nss_chronicles_with_input("1") }
     it "should print the next menu" do
-      shell_output.should include("Please enter the cohort as: title, primary languages, term")
+      shell_output.should include("Please enter the cohort as: title, language 1/language 2, term")
     end
   end
   context "the user selects 2" do
@@ -60,7 +60,7 @@ EOS
   context "if the user types in incorrect input multiple times, it should allow correct input" do
     let(:shell_output){ run_nss_chronicles_with_input("4", "", "1") }
     it "should include the appropriate menu" do
-      shell_output.should include("Please enter the cohort as: title, primary languages, term")
+      shell_output.should include("Please enter the cohort as: title, language 1/language 2, term")
     end
   end
 end
