@@ -7,7 +7,7 @@ As the NSS president<br />
 In order to separate students by cohort and track cohort details<br />
 I want to be able to create a new cohort
 
-  - User runs `nss add cohort <title/primary languages/term>`
+  - User runs `nss add cohort <title/language 1/language 2/term>`
   - The cohort record is then added to the list of all cohorts
   - After saving, the user is given a confirmation message
 
