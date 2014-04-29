@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+require_relative 'lib/cohort'
+require_relative 'lib/student'
+require_relative 'lib/project'
+
+def menu
+<<EOS
+What do you want to do?
+1. Add Cohort
+2. Add Student
+3. Add Project
+EOS
+end
+
+def get_menu_selection
+  puts menu
+  input = gets
+  return unless input
+  input.chomp!
+  if input == "1"
+    puts "Please enter the cohort as: title, primary languages, term"
+    values = gets
+    return unless values
+    values = values.chomp.split(",").map(&:strip)
+    cohort = Cohort.new(values[0], values[1], values[2])
+    puts cohort.to_s
+  elsif input == "2"
+    puts "Please enter the student as first name, last name, cohort id"
+    values = gets
+    return unless values
+    values = values.chomp.split(",").map(&:strip)
+    student = Student.new(values[0], values[1], values[2])
+    puts student.to_s
+  elsif input == "3"
+    puts "Please enter the project as: title, primary language, student id, github url, hosted url"
+    values = gets
+    return unless values
+    values = values.chomp.split(",").map(&:strip)
+    project = Project.new(values[0], values[1], values[2], values[3], values[4])
+    puts project.to_s
+  else
+    puts "'#{input}' is not a valid selection"
+    get_menu_selection
+  end
+end
+
+get_menu_selection
