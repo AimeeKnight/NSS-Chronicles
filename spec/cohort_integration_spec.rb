@@ -1,12 +1,11 @@
 require_relative 'spec_helper'
 
-describe "Adding an cohort" do
+describe "Adding a cohort" do
   before do
-    cohort = Cohort.new("Test Cohort 1")
-    cohort.save
+    cohort = Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
   end
   context "adding a unique cohort" do
-    let!(:output){ run_nss_chronicles_with_input("1", "Test Cohort 2") }
+    let!(:output){ run_nss_chronicles_with_input("1", "Test Cohort 2, JS/Ruby, Spring 14") }
     it "should print a confirmation message" do
       output.should include("Test Cohort 2 has been added.")
       Cohort.count.should == 2
@@ -19,7 +18,7 @@ describe "Adding an cohort" do
     end
   end
   context "adding a duplicate cohort" do
-    let(:output){ run_nss_chronicles_with_input("1", "Test Cohort 1") }
+    let(:output){ run_nss_chronicles_with_input("1", "Test Cohort 1, JS/Ruby, Spring 14") }
     it "should print an error message" do
       output.should include("Test Cohort 1 already exists.")
     end
@@ -31,8 +30,7 @@ describe "Adding an cohort" do
       Cohort.count.should == 1
     end
     context "and trying again" do
-      before { pending }
-      let(:output){ run_nss_chronicles_with_input("1", "Test Cohort 2", "Test Cohort 3") }
+      let!(:output){ run_nss_chronicles_with_input("1", "Test Cohort 2, JS/Ruby, Spring 14", "Test Cohort 3, JS/Ruby, Spring 14") }
       it "should save a unique item" do
         Cohort.last.title.should == "Test Cohort 3"
       end

@@ -2,15 +2,15 @@ class Cohort
   attr_reader :errors
   #attr_reader :name
   attr_accessor :title,
-                :primary_languages,
+                :languages,
                 :term
 
-  def initialize (title)
+  def initialize (title, languages, term)
   #def initialize (title, primary_languages, term)
     @title = title
     #self.title = title
-    #self.primary_languages = primary_languages
-    #self.term = term
+    @languages = languages
+    @term = term
     @errors = []
   end
 
@@ -44,8 +44,8 @@ class Cohort
       @errors << "#{self.title} already exists."
       false
     else
-      statement = "Insert into cohorts (title) values (?);"
-      Environment.database_connection.execute(statement, title)
+      statement = "Insert into cohorts (title, languages, term) values (?, ?, ?);"
+      Environment.database_connection.execute(statement, [title, languages, term])
       true
     end
   end
@@ -56,7 +56,7 @@ class Cohort
     rows = Environment.database_connection.execute(statement, bind_vars)
     results = []
     rows.each do |row|
-      results << Cohort.new(row["title"])
+      results << Cohort.new(row["title"], row["languages"], row["term"])
     end
     results
   end

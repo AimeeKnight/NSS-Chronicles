@@ -20,12 +20,12 @@ end
 
 def add_cohort
   puts "Please enter the cohort as: title, language 1/language 2, term"
-  cohort_title = gets
-  return unless cohort_title
-  cohort_title = cohort_title.chomp
-  cohort = Cohort.new(cohort_title)
+  cohort_input = gets
+  return unless cohort_input
+  cohort_input = cohort_input.chomp.split(",").map(&:strip)
+  cohort = Cohort.new(cohort_input[0], cohort_input[1], cohort_input[2])
   if cohort.save
-    puts "#{cohort_title} has been added."
+    puts "#{cohort_input[0]} has been added."
   else
     puts cohort.errors
     add_cohort

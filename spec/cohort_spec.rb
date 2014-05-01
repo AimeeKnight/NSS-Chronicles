@@ -10,10 +10,10 @@ describe Cohort do
     end
     context "with multiple entries in the database" do
       before do
-        Cohort.new("Test Cohort 1").save
-        Cohort.new("Test Cohort 2").save
-        Cohort.new("Test Cohort 3").save
-        Cohort.new("Test Cohort 4").save
+        Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
+        Cohort.new("Test Cohort 2", "JS/Ruby", "Spring 14").save
+        Cohort.new("Test Cohort 3", "JS/Ruby", "Spring 14").save
+        Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14").save
       end
       it "should return all the entries in the database" do
         titles = Cohort.all.map(&:title)
@@ -30,10 +30,10 @@ describe Cohort do
     end
     context "with multiple cohorts in the database" do
       before do
-        Cohort.new("Test Cohort 1").save
-        Cohort.new("Test Cohort 2").save
-        Cohort.new("Test Cohort 3").save
-        Cohort.new("Test Cohort 4").save
+        Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
+        Cohort.new("Test Cohort 2", "JS/Ruby", "Spring 14").save
+        Cohort.new("Test Cohort 3", "JS/Ruby", "Spring 14").save
+        Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14").save
       end
       it "should return the correct count" do
         Cohort.count.should == 4
@@ -49,10 +49,10 @@ describe Cohort do
     end
     context "given a cohort with the passed title in the database" do
       before do
-        Cohort.new("Test Cohort 1").save
-        Cohort.new("Test Cohort 2").save
-        Cohort.new("Test Cohort 3").save
-        Cohort.new("Test Cohort 4").save
+        Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
+        Cohort.new("Test Cohort 2", "JS/Ruby", "Spring 14").save
+        Cohort.new("Test Cohort 3", "JS/Ruby", "Spring 14").save
+        Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14").save
       end
       it "should return the cohort with that title" do
         Cohort.find_by_title("Test Cohort 1").title.should == "Test Cohort 1"
@@ -68,10 +68,10 @@ describe Cohort do
     end
     context "with multiple cohorts in the database" do
       before do
-        Cohort.new("Test Cohort 1").save
-        Cohort.new("Test Cohort 2").save
-        Cohort.new("Test Cohort 3").save
-        Cohort.new("Test Cohort 4").save
+        Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
+        Cohort.new("Test Cohort 2", "JS/Ruby", "Spring 14").save
+        Cohort.new("Test Cohort 3", "JS/Ruby", "Spring 14").save
+        Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14").save
       end
       it "should return the last cohort inserted" do
         Cohort.last.title.should == "Test Cohort 4"
@@ -80,7 +80,7 @@ describe Cohort do
   end
 
   context "#new" do
-    let(:cohort){ Cohort.new("Test Cohort 1") }
+    let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
     it "should store the title" do
       cohort.title.should == "Test Cohort 1"
     end
@@ -89,7 +89,7 @@ describe Cohort do
   context "#save" do
     let(:result){ Environment.database_connection.execute("Select title from cohorts") }
     context "with a unique title" do
-      let(:cohort){ Cohort.new("Test Cohort 1") }
+      let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
       it "should return true" do
         cohort.save.should be_true
       end
@@ -103,9 +103,9 @@ describe Cohort do
       end
     end
     context "with a duplicate title" do
-      let(:cohort){ Cohort.new("Test Cohort 1") }
+      let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
       before do
-        Cohort.new("Test Cohort 1").save
+        Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
       end
       it "should return false" do
         cohort.save.should be_false
@@ -121,13 +121,14 @@ describe Cohort do
     end
   end
 
-  #context "#to_s" do
-    #let(:cohort) { Cohort.new("Test Title", "test language 1/test language 2", "test term") }
+  context "#to_s" do
+    #let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
 
-    #it "converts to a string with properties" do
-      #expect(cohort.to_s).to eq 'Title: Test Title, Primary langages: test language 1/test language 2, Term: test term'
-    #end
-  #end
+    it "converts to a string with properties" do
+      pending
+      expect(cohort.to_s).to eq 'Title: Test Title, Primary langages: test language 1/test language 2, Term: test term'
+    end
+  end
 
 end
 

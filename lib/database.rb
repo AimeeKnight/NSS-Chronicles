@@ -10,7 +10,7 @@ class Database < SQLite3::Database
   end
 
   def create_tables
-    self.execute("CREATE TABLE cohorts (id INTEGER PRIMARY KEY AUTOINCREMENT, title varchar(50))")
+    self.execute("CREATE TABLE cohorts (id INTEGER PRIMARY KEY AUTOINCREMENT, title varchar(50), languages varchar(75), term varchar(50));")
   end
 
   def execute(statement, bind_vars = [])
