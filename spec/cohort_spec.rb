@@ -2,6 +2,26 @@ require_relative '../models/cohort'
 require_relative 'spec_helper'
 
 describe Cohort do
+  context ".all" do
+    context "with no cohorts in the database" do
+      it "should return an empty array" do
+        Cohort.all.should == []
+      end
+    end
+    context "with multiple entries in the database" do
+      before do
+        Cohort.new("Test Cohort 1").save
+        Cohort.new("Test Cohort 2").save
+        Cohort.new("Test Cohort 3").save
+        Cohort.new("Test Cohort 4").save
+      end
+      it "should return all the entries in the database" do
+        titles = Cohort.all.map(&:title)
+        titles.should == ["Test Cohort 1", "Test Cohort 2", "Test Cohort 3", "Test Cohort 4"]
+      end
+    end
+  end
+
   context ".count" do
     context "with no cohorts in the database" do
       it "should return 0" do
