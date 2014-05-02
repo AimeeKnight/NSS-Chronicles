@@ -1,6 +1,5 @@
 class Cohort
   attr_reader :errors
-  #attr_reader :name
   attr_accessor :title,
                 :languages,
                 :term

@@ -1,5 +1,4 @@
-require_relative '../models/cohort'
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
 describe Cohort do
   context ".all" do

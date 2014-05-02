@@ -22,6 +22,8 @@ end
 RSpec.configure do |config|
   config.after(:each) do
     Environment.database_connection.execute("DELETE FROM cohorts;")
+    Environment.database_connection.execute("DELETE FROM students;")
+    Environment.database_connection.execute("DELETE FROM projects;")
   end
 end
 

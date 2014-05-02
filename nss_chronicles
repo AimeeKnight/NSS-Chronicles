@@ -8,6 +8,8 @@ Environment.environment = ENV["ENVIRONMENT"] || "production"
 $stderr = $stdout
 
 require 'cohort'
+require 'student'
+require 'project'
 
 def menu
 <<EOS
@@ -18,6 +20,7 @@ What do you want to do?
 EOS
 end
 
+#################### COHORT #################### 
 def add_cohort
   puts "Please enter the cohort as: title, language 1/language 2, term"
   cohort_input = gets
@@ -32,22 +35,30 @@ def add_cohort
   end
 end
 
+#################### STUDENT #################### 
+def add_student
+  puts "Please enter the student as first name, last name, cohort id"
+  student_input = gets
+  return unless student_input
+  student_input = student_input.chomp.split(",").map(&:strip)
+  student = Student.new(student_input[0], student_input[1], student_input[2])
+  if student.save
+    puts "#{student_input[0]} has been added."
+  else
+    puts student.errors
+    add_student
+  end
+end
+
 def get_menu_selection
   puts menu
   input = gets
   return unless input
   input.chomp!
-  #################### COHORT #################### 
   if input == "1"
     add_cohort
-  #################### STUDENT #################### 
   elsif input == "2"
-    puts "Please enter the student as first name, last name, cohort id"
-    values = gets
-    return unless values
-    values = values.chomp.split(",").map(&:strip)
-    student = Student.new(values[0], values[1], values[2])
-    puts student.to_s
+    add_student
   #################### PROJECT #################### 
   elsif input == "3"
     puts "Please enter the project as: title, primary language, student id, github url, hosted url"

@@ -3,7 +3,7 @@ $LOAD_PATH << "lib"
 
 RSpec::Core::RakeTask.new(:spec)
 
-task :default => :spec
+task :default => [ :test_prepare, :spec ]
 
 desc 'create the production database setup'
 task :bootstrap_database do
