@@ -9,7 +9,7 @@ Environment.environment = "test"
 
 def run_nss_chronicles_with_input(*inputs)
   shell_output = ""
-  IO.popen('./nss_chronicles', 'r+') do |pipe|
+  IO.popen('ENVIRONMENT=test ./nss_chronicles', 'r+') do |pipe|
     inputs.each do |input|
       pipe.puts input
     end

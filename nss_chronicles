@@ -4,7 +4,7 @@ $LOAD_PATH << "lib"
 $LOAD_PATH << "models"
 
 require 'environment'
-Environment.environment = "test"
+Environment.environment = ENV["ENVIRONMENT"] || "production"
 $stderr = $stdout
 
 require 'cohort'
