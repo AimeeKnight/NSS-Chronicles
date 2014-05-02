@@ -2,7 +2,8 @@ require_relative 'spec_helper'
 
 describe "Adding a cohort" do
   before do
-    cohort = Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
+    cohort = Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14")
+    cohort.save
   end
   context "adding a unique cohort" do
     let!(:output){ run_nss_chronicles_with_input("1", "Test Cohort 2, JS/Ruby, Spring 14") }
@@ -30,7 +31,7 @@ describe "Adding a cohort" do
       Cohort.count.should == 1
     end
     context "and trying again" do
-      let!(:output){ run_nss_chronicles_with_input("1", "Test Cohort 2, JS/Ruby, Spring 14", "Test Cohort 3, JS/Ruby, Spring 14") }
+      let!(:output){ run_nss_chronicles_with_input("1", "Test Cohort 1, JS/Ruby, Spring 14", "Test Cohort 3, JS/Ruby, Spring 14") }
       it "should save a unique item" do
         Cohort.last.title.should == "Test Cohort 3"
       end
@@ -41,7 +42,7 @@ describe "Adding a cohort" do
   end
   context "entering an invalid looking cohort title" do
     context "with SQL injection" do
-      let(:input){ "Test Cohort 4'), ('425" }
+      let(:input){ "Test Cohort 4, JS/Ruby, Spring 14'), ('425" }
       let!(:output) { run_nss_chronicles_with_input("1", input) }
       it "should create the cohort without evaluating the SQL" do
         Cohort.last.title.should == input
