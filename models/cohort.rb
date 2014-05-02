@@ -40,7 +40,10 @@ class Cohort
   end
 
   def save
-    if Cohort.find_by_title(self.title)
+    if !title.match /[a-zA-Z]/
+      @errors << "'#{self.title}' is not a valid cohort title, as it does not include any letters."
+      false
+    elsif Cohort.find_by_title(self.title)
       @errors << "#{self.title} already exists."
       false
     else

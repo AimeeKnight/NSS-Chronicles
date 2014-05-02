@@ -57,16 +57,13 @@ describe "Adding a cohort" do
     context "without alphabet characters" do
       let(:output){ run_nss_chronicles_with_input("1", "4*25") }
       it "should not save the cohort" do
-        pending
         Cohort.count.should == 1
       end
       it "should print an error message" do
-        pending
-        output.should include("'4*25' is not a valid cohort title, as it does not include any letters'")
+        output.should include("'4*25' is not a valid cohort title, as it does not include any letters.")
       end
       it "should let them try again" do
-        pending
-        menu_text = "What is the cohort you want to add?"
+        menu_text = "Please enter the cohort as: title, language 1/language 2, term"
         output.should include_in_order(menu_text, "not a valid", menu_text)
       end
     end
