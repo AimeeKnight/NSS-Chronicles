@@ -88,10 +88,10 @@ describe Cohort do
 
   context "#save" do
     let(:result){ Environment.database_connection.execute("Select title from cohorts") }
-    context "with a unique title" do
-      let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
-      it "should return true" do
-        cohort.save.should be_true
+    let(:cohort){ Cohort.new("Test Cohort Foo", "JS/Ruby", "Spring 14") }
+    context "with a valid cohort" do
+      before do
+        cohort.stub(:valid?) { true }
       end
       it "should only save one row to the database" do
         cohort.save
@@ -99,20 +99,43 @@ describe Cohort do
       end
       it "should actually save it to the database" do
         cohort.save
-        result[0]["title"].should == "Test Cohort 1"
+        result[0]["title"].should == "Test Cohort Foo"
       end
     end
-    context "with an invalid title" do
-      let(:cohort){ Cohort.new("123", "JS/Ruby", "Spring 14") }
-      it "should return false" do
-        cohort.save.should be_false
+    context "with an invalid cohort" do
+      before do
+        cohort.stub(:valid?) { false }
       end
       it "should not save a new cohort to the database" do
         cohort.save
         result.count.should == 0
       end
+    end
+  end
+
+  context "#valid?" do
+    let(:result){ Environment.database_connection.execute("Select title from cohorts") }
+    context "after fixing the errors" do
+      let(:cohort){ Cohort.new("123", "JS/Ruby", "Spring 14") }
+      it "should return true" do
+        cohort.valid?.should be_false
+        cohort.title = "Test Cohort Bar"
+        cohort.valid?.should be_true
+      end
+    end
+    context "with a unique title" do
+      let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      it "should return true" do
+        cohort.valid?.should be_true
+      end
+    end
+    context "with an invalid title" do
+      let(:cohort){ Cohort.new("123", "JS/Ruby", "Spring 14") }
+      it "should return false" do
+        cohort.valid?.should be_false
+      end
       it "should save the error messages" do
-        cohort.save
+        cohort.valid?
         cohort.errors.first.should == "'123' is not a valid cohort title, as it does not include any letters."
       end
     end
@@ -122,14 +145,10 @@ describe Cohort do
         Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
       end
       it "should return false" do
-        cohort.save.should be_false
-      end
-      it "should not save a new cohort" do
-        cohort.save
-        result.count.should == 1
+        cohort.valid?.should be_false
       end
       it "should save the error messages" do
-        cohort.save
+        cohort.valid?
         cohort.errors.first.should == "Test Cohort 1 already exists."
       end
     end
