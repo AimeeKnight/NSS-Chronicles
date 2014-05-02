@@ -102,6 +102,20 @@ describe Cohort do
         result[0]["title"].should == "Test Cohort 1"
       end
     end
+    context "with an invalid title" do
+      let(:cohort){ Cohort.new("123", "JS/Ruby", "Spring 14") }
+      it "should return false" do
+        cohort.save.should be_false
+      end
+      it "should not save a new cohort to the database" do
+        cohort.save
+        result.count.should == 0
+      end
+      it "should save the error messages" do
+        cohort.save
+        cohort.errors.first.should == "'123' is not a valid cohort title, as it does not include any letters."
+      end
+    end
     context "with a duplicate title" do
       let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
       before do

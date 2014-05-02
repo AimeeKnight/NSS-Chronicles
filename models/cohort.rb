@@ -6,12 +6,9 @@ class Cohort
                 :term
 
   def initialize (title, languages, term)
-  #def initialize (title, primary_languages, term)
     @title = title
-    #self.title = title
     @languages = languages
     @term = term
-    @errors = []
   end
 
   #def to_s
@@ -40,17 +37,23 @@ class Cohort
   end
 
   def save
-    if !title.match /[a-zA-Z]/
-      @errors << "'#{self.title}' is not a valid cohort title, as it does not include any letters."
-      false
-    elsif Cohort.find_by_title(self.title)
-      @errors << "#{self.title} already exists."
-      false
-    else
+    if valid?
       statement = "Insert into cohorts (title, languages, term) values (?, ?, ?);"
       Environment.database_connection.execute(statement, [title, languages, term])
       true
+    else
+      false
     end
+  end
+
+  def valid?
+    @errors = []
+    if !title.match /[a-zA-Z]/
+      @errors << "'#{self.title}' is not a valid cohort title, as it does not include any letters."
+    elsif Cohort.find_by_title(self.title)
+      @errors << "#{self.title} already exists."
+    end
+    @errors.empty?
   end
 
   private
