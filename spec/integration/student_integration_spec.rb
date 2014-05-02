@@ -1,5 +1,4 @@
 require_relative '../spec_helper'
-require_relative '../../models/student'
 
 describe "Adding a student" do
   before do
@@ -48,7 +47,7 @@ describe "Adding a student" do
       it "should create the student without evaluating the SQL" do
         Student.last.first_name.should == "Bob"
       end
-      it "shouldn't create the duplicate student" do
+      it "shouldn't create the another student" do
         Student.count.should == 2
       end
       it "should print a success message at the end" do

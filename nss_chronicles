@@ -50,6 +50,21 @@ def add_student
   end
 end
 
+#################### PROJECT #################### 
+def add_project
+  puts "Please enter the project as: title, primary language, student id, github url, hosted url"
+  project_input = gets
+  return unless project_input
+  project_input = project_input.chomp.split(",").map(&:strip)
+  project = Project.new(project_input[0], project_input[1], project_input[2], project_input[3], project_input[4])
+  if project.save
+    puts "#{project_input[0]} has been added."
+  else
+    puts project.errors
+    add_project
+  end
+end
+
 def get_menu_selection
   puts menu
   input = gets
@@ -59,14 +74,8 @@ def get_menu_selection
     add_cohort
   elsif input == "2"
     add_student
-  #################### PROJECT #################### 
   elsif input == "3"
-    puts "Please enter the project as: title, primary language, student id, github url, hosted url"
-    values = gets
-    return unless values
-    values = values.chomp.split(",").map(&:strip)
-    project = Project.new(values[0], values[1], values[2], values[3], values[4])
-    puts project.to_s
+    add_project
   else
     puts "'#{input}' is not a valid selection"
     get_menu_selection

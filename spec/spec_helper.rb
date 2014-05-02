@@ -4,6 +4,8 @@ $LOAD_PATH << "models"
 
 require 'environment'
 require 'cohort'
+require 'student'
+require 'project'
 
 Environment.environment = "test"
 

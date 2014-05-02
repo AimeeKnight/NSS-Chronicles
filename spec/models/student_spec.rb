@@ -1,4 +1,3 @@
-require_relative '../../models/student'
 require_relative '../spec_helper'
 
 describe Student do
