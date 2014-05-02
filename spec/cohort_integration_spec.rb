@@ -45,13 +45,13 @@ describe "Adding a cohort" do
       let(:input){ "Test Cohort 4, JS/Ruby, Spring 14'), ('425" }
       let!(:output) { run_nss_chronicles_with_input("1", input) }
       it "should create the cohort without evaluating the SQL" do
-        Cohort.last.title.should == input
+        Cohort.last.title.should == "Test Cohort 4"
       end
       it "shouldn't create the duplicate cohort" do
         Cohort.count.should == 2
       end
       it "should print a success message at the end" do
-        output.should include("#{input} has been added")
+        output.should include("#{Cohort.last.title} has been added")
       end
     end
     context "without alphabet characters" do
