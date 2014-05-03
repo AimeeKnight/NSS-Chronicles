@@ -1,5 +1,6 @@
 class Cohort
-  attr_reader :errors
+  attr_reader :errors,
+              :id
   attr_accessor :title,
                 :languages,
                 :term
@@ -25,6 +26,12 @@ class Cohort
     result[0][0]
   end
 
+  def self.create(title, languages, term)
+    cohort = Cohort.new(title, languages, term)
+    cohort.save
+    cohort
+  end
+
   def self.find_by_title(title)
     statement = "Select * from cohorts where title = ?;"
     execute_and_instantiate(statement, title)[0]
@@ -39,6 +46,7 @@ class Cohort
     if valid?
       statement = "Insert into cohorts (title, languages, term) values (?, ?, ?);"
       Environment.database_connection.execute(statement, [title, languages, term])
+      @id = Environment.database_connection.execute("SELECT last_insert_rowid();")[0][0]
       true
     else
       false
@@ -61,7 +69,9 @@ class Cohort
     rows = Environment.database_connection.execute(statement, bind_vars)
     results = []
     rows.each do |row|
-      results << Cohort.new(row["title"], row["languages"], row["term"])
+      cohort = Cohort.new(row["title"], row["languages"], row["term"])
+      cohort.instance_variable_set(:@id, row["id"])
+      results << cohort
     end
     results
   end

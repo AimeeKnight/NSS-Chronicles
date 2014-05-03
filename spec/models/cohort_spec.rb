@@ -8,15 +8,22 @@ describe Cohort do
       end
     end
     context "with multiple entries in the database" do
+      let(:test_cohort_1){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let(:test_cohort_2){ Cohort.new("Test Cohort 2", "JS/Ruby", "Spring 14") }
+      let(:test_cohort_3){ Cohort.new("Test Cohort 3", "JS/Ruby", "Spring 14") }
+      let(:test_cohort_4){ Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14") }
       before do
-        Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
-        Cohort.new("Test Cohort 2", "JS/Ruby", "Spring 14").save
-        Cohort.new("Test Cohort 3", "JS/Ruby", "Spring 14").save
-        Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14").save
+        test_cohort_1.save
+        test_cohort_2.save
+        test_cohort_3.save
+        test_cohort_4.save
       end
-      it "should return all the entries in the database" do
-        titles = Cohort.all.map(&:title)
-        titles.should == ["Test Cohort 1", "Test Cohort 2", "Test Cohort 3", "Test Cohort 4"]
+      it "should return all the entries in the database with their names and ids" do
+        cohort_attrs = Cohort.all.map{ |cohort| [cohort.title, cohort.id] }
+        cohort_attrs.should == [["Test Cohort 1", test_cohort_1.id],
+                                ["Test Cohort 2", test_cohort_2.id],
+                                ["Test Cohort 3", test_cohort_3.id],
+                                ["Test Cohort 4", test_cohort_4.id]]
       end
     end
   end
@@ -47,14 +54,18 @@ describe Cohort do
       end
     end
     context "given a cohort with the passed title in the database" do
+      let(:test_cohort_1){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
       before do
-        Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
+        test_cohort_1.save
         Cohort.new("Test Cohort 2", "JS/Ruby", "Spring 14").save
         Cohort.new("Test Cohort 3", "JS/Ruby", "Spring 14").save
         Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14").save
       end
       it "should return the cohort with that title" do
         Cohort.find_by_title("Test Cohort 1").title.should == "Test Cohort 1"
+      end
+      it "should populate the id" do
+        Cohort.find_by_title("Test Cohort 1").id.should == test_cohort_1.id
       end
     end
   end
@@ -66,14 +77,18 @@ describe Cohort do
       end
     end
     context "with multiple cohorts in the database" do
+      let(:test_cohort_4){ Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14") }
       before do
         Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
         Cohort.new("Test Cohort 2", "JS/Ruby", "Spring 14").save
         Cohort.new("Test Cohort 3", "JS/Ruby", "Spring 14").save
-        Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14").save
+        test_cohort_4.save
       end
       it "should return the last cohort inserted" do
         Cohort.last.title.should == "Test Cohort 4"
+      end
+      it "should return the last cohort inserted with the id populated" do
+        Cohort.last.id.should == test_cohort_4.id
       end
     end
   end

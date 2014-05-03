@@ -1,5 +1,6 @@
 class Project
-  attr_reader :errors
+  attr_reader :errors,
+              :id
   attr_accessor :title,
                 :language,
                 :student_id,
@@ -29,6 +30,12 @@ class Project
     result[0][0]
   end
 
+  def self.create(title, language, student_id, github_url, hosted_url)
+    project = Project.new(title, language, student_id, github_url, hosted_url)
+    project.save
+    project
+  end
+
   def self.find_by_title(title)
     statement = "Select * from projects where title = ?;"
     execute_and_instantiate(statement, title)[0]
@@ -43,6 +50,7 @@ class Project
     if valid?
       statement = "Insert into projects (title, language, student_id, github_url, hosted_url) values (?, ?, ?, ?, ?);"
       Environment.database_connection.execute(statement, [title, language, student_id, github_url, hosted_url])
+      @id = Environment.database_connection.execute("SELECT last_insert_rowid();")[0][0]
       true
     else
       false
@@ -65,7 +73,9 @@ class Project
     rows = Environment.database_connection.execute(statement, bind_vars)
     results = []
     rows.each do |row|
-      results << Project.new(row["title"], row["language"], row["student_id"], row["github_url"], row["hosted_url"])
+      project = Project.new(row["title"], row["language"], row["student_id"], row["github_url"], row["hosted_url"])
+      project.instance_variable_set(:@id, row["id"])
+      results << project
     end
     results
   end

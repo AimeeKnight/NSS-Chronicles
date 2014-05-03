@@ -1,5 +1,6 @@
 class Student
-  attr_reader :errors
+  attr_reader :errors,
+              :id
   attr_accessor :first_name,
                 :last_name,
                 :cohort_id
@@ -25,6 +26,12 @@ class Student
     result[0][0]
   end
 
+  def self.create(first_name, last_name, cohort_id)
+    student = Student.new(first_name, last_name, cohort_id)
+    student.save
+    student
+  end
+
   def self.find_by_first_name(first_name)
     statement = "Select * from students where first_name = ?;"
     execute_and_instantiate(statement, first_name)[0]
@@ -39,6 +46,7 @@ class Student
     if valid?
       statement = "Insert into students (first_name, last_name, cohort_id) values (?, ?, ?);"
       Environment.database_connection.execute(statement, [first_name, last_name, cohort_id])
+      @id = Environment.database_connection.execute("SELECT last_insert_rowid();")[0][0]
       true
     else
       false
@@ -61,7 +69,9 @@ class Student
     rows = Environment.database_connection.execute(statement, bind_vars)
     results = []
     rows.each do |row|
-      results << Student.new(row["first_name"], row["last_name"], row["cohort_id"])
+      student = Student.new(row["first_name"], row["last_name"], row["cohort_id"])
+      student.instance_variable_set(:@id, row["id"])
+      results << student
     end
     results
   end
