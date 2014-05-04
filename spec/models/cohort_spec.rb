@@ -100,8 +100,37 @@ describe Cohort do
     end
   end
 
+  context "#create" do
+    let(:result){ Environment.database_connection.execute("Select * from cohorts") }
+    let(:cohort){ Cohort.create("Test Cohort Foo", "JS/Ruby", "Spring 14") }
+    context "with a valid cohort" do
+      before do
+       Cohort.any_instance.stub(:valid?){ true }
+       cohort
+      end
+      it "should record the new id" do
+        result[0]["id"].should == cohort.id
+      end
+      it "should only save one row to the database" do
+        result.count.should == 1
+      end
+      it "should actually save it to the database" do
+        result[0]["title"].should == "Test Cohort Foo"
+      end
+    end
+    context "with an invalid cohort" do
+      before do
+        Cohort.any_instance.stub(:valid?){ false }
+        cohort
+      end
+      it "should not save the cohort to the database" do
+        result.count.should == 0
+      end
+    end
+  end
+
   context "#save" do
-    let(:result){ Environment.database_connection.execute("Select title from cohorts") }
+    let(:result){ Environment.database_connection.execute("Select * from cohorts") }
     let(:cohort){ Cohort.new("Test Cohort Foo", "JS/Ruby", "Spring 14") }
     context "with a valid cohort" do
       before do
@@ -110,6 +139,10 @@ describe Cohort do
       it "should only save one row to the database" do
         cohort.save
         result.count.should == 1
+      end
+      it "should recod the new id" do
+        cohort.save
+        cohort.id.should == result[0]["id"]
       end
       it "should actually save it to the database" do
         cohort.save

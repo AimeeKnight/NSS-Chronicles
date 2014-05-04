@@ -8,15 +8,22 @@ describe Project do
       end
     end
     context "with multiple entries in the database" do
+        let(:test_project_1){ Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com") }
+        let(:test_project_2){ Project.new("Test Project 2", "Ruby", "1", "www.github.com/example", "www.example.com") }
+        let(:test_project_3){ Project.new("Test Project 3", "Ruby", "1", "www.github.com/example", "www.example.com") }
+        let(:test_project_4){ Project.new("Test Project 4", "Ruby", "1", "www.github.com/example", "www.example.com") }
       before do
-        Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com").save
-        Project.new("Test Project 2", "Ruby", "1", "www.github.com/example", "www.example.com").save
-        Project.new("Test Project 3", "Ruby", "1", "www.github.com/example", "www.example.com").save
-        Project.new("Test Project 4", "Ruby", "1", "www.github.com/example", "www.example.com").save
+        test_project_1.save
+        test_project_2.save
+        test_project_3.save
+        test_project_4.save
       end
       it "should return all the entries in the database" do
-        titles = Project.all.map(&:title)
-        titles.should == ["Test Project 1", "Test Project 2", "Test Project 3", "Test Project 4"]
+        project_attrs = Project.all.map{ |project| [project.title, project.id] }
+        project_attrs.should == [["Test Project 1", test_project_1.id],
+                                 ["Test Project 2", test_project_2.id],
+                                 ["Test Project 3", test_project_3.id],
+                                 ["Test Project 4", test_project_4.id]]
       end
     end
   end
@@ -47,14 +54,18 @@ describe Project do
       end
     end
     context "given a project with the passed title in the database" do
+        let(:test_project_1){ Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com") }
       before do
-        Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com").save
+        test_project_1.save
         Project.new("Test Project 2", "Ruby", "1", "www.github.com/example", "www.example.com").save
         Project.new("Test Project 3", "Ruby", "1", "www.github.com/example", "www.example.com").save
         Project.new("Test Project 4", "Ruby", "1", "www.github.com/example", "www.example.com").save
       end
       it "should return the project with that title" do
         Project.find_by_title("Test Project 1").title.should == "Test Project 1"
+      end
+      it "should populate the id" do
+        Project.find_by_title("Test Project 1").id.should == test_project_1.id
       end
     end
   end
@@ -66,14 +77,18 @@ describe Project do
       end
     end
     context "with multiple projects in the database" do
+        let(:test_project_4){ Project.new("Test Project 4", "Ruby", "1", "www.github.com/example", "www.example.com") }
       before do
         Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com").save
         Project.new("Test Project 2", "Ruby", "1", "www.github.com/example", "www.example.com").save
         Project.new("Test Project 3", "Ruby", "1", "www.github.com/example", "www.example.com").save
-        Project.new("Test Project 4", "Ruby", "1", "www.github.com/example", "www.example.com").save
+        test_project_4.save
       end
       it "should return the last project inserted" do
         Project.last.title.should == "Test Project 4"
+      end
+      it "should return the last project inserted with the id populated" do
+        Project.last.id.should == test_project_4.id
       end
     end
   end
@@ -82,6 +97,35 @@ describe Project do
     let(:project){ Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com") }
     it "should store the title" do
       project.title.should == "Test Project 1"
+    end
+  end
+
+  context "#create" do
+    let(:result){ Environment.database_connection.execute("Select * from projects") }
+    let(:project){ Project.create("Test Project Foo", "Ruby", "1", "www.github.com/example", "www.example.com") }
+    context "with a valid project" do
+      before do
+       Project.any_instance.stub(:valid?){ true }
+       project
+      end
+      it "should record the new id" do
+        result[0]["id"].should == project.id
+      end
+      it "should only save one row to the database" do
+        result.count.should == 1
+      end
+      it "should actually save it to the database" do
+        result[0]["title"].should == "Test Project Foo"
+      end
+    end
+    context "with an invalid project" do
+      before do
+        Project.any_instance.stub(:valid?){ false }
+        project
+      end
+      it "should not save the project to the database" do
+        result.count.should == 0
+      end
     end
   end
 

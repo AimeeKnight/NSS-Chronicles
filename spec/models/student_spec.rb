@@ -8,15 +8,22 @@ describe Student do
       end
     end
     context "with multiple entries in the database" do
+        let(:aimee){ Student.new("Aimee", "Knight", "4") }
+        let(:jamie){ Student.new("Jamie", "Knight", "4") }
+        let(:jay){ Student.new("Jay", "Knight", "4") }
+        let(:bob){ Student.new("Bob", "Knight", "4") }
       before do
-        Student.new("Aimee", "Knight", "4").save
-        Student.new("Jamie", "Knight", "4").save
-        Student.new("Jay", "Knight", "4").save
-        Student.new("Bob", "Knight", "4").save
+        aimee.save
+        jamie.save
+        jay.save
+        bob.save
       end
-      it "should return all the entries in the database" do
-        first_names = Student.all.map(&:first_name)
-        first_names.should == ["Aimee", "Jamie", "Jay", "Bob"]
+      it "should return all the entries in the database with their names and ids" do
+        student_attrs = Student.all.map{ |student| [student.first_name, student.id] }
+        student_attrs.should == [["Aimee", aimee.id],
+                                 ["Jamie", jamie.id],
+                                 ["Jay", jay.id],
+                                 ["Bob", bob.id]]
       end
     end
   end
@@ -47,14 +54,18 @@ describe Student do
       end
     end
     context "given a student with the passed first name in the database" do
+        let(:aimee){ Student.new("Aimee", "Knight", "4") } 
       before do
-        Student.new("Aimee", "Knight", "4").save
+        aimee.save
         Student.new("Jamie", "Knight", "4").save
         Student.new("Jay", "Knight", "4").save
         Student.new("Bob", "Knight", "4").save
       end
       it "should return the student with that first_name" do
         Student.find_by_first_name("Aimee").first_name.should == "Aimee"
+      end
+      it "should populate the id" do
+        Student.find_by_first_name("Aimee").id.should == aimee.id
       end
     end
   end
@@ -66,14 +77,18 @@ describe Student do
       end
     end
     context "with multiple students in the database" do
+        let(:bob){ Student.new("Bob", "Knight", "4") }
       before do
         Student.new("Aimee", "Knight", "4").save
         Student.new("Jamie", "Knight", "4").save
         Student.new("Jay", "Knight", "4").save
-        Student.new("Bob", "Knight", "4").save
+        bob.save
       end
       it "should return the last student inserted" do
         Student.last.first_name.should == "Bob"
+      end
+      it "should return the last student inserted with the id populated" do
+        Student.last.id.should == bob.id
       end
     end
   end
@@ -82,6 +97,35 @@ describe Student do
     let(:student){ Student.new("Aimee", "Knight", "4") }
     it "should store the first_name" do
       student.first_name.should == "Aimee"
+    end
+  end
+
+  context "#create" do
+    let(:result){ Environment.database_connection.execute("Select * from students") }
+    let(:student){ Student.create("Aimee", "Knight", "4") }
+    context "with a valid student" do
+      before do
+       Student.any_instance.stub(:valid?){ true }
+       student
+      end
+      it "should record the new id" do
+        result[0]["id"].should == student.id
+      end
+      it "should only save one row to the database" do
+        result.count.should == 1
+      end
+      it "should actually save it to the database" do
+        result[0]["first_name"].should == "Aimee"
+      end
+    end
+    context "with an invalid student" do
+      before do
+        Student.any_instance.stub(:valid?){ false }
+        student
+      end
+      it "should not save the student to the database" do
+        result.count.should == 0
+      end
     end
   end
 
