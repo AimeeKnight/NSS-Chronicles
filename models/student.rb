@@ -32,7 +32,7 @@ class Student
     student
   end
 
-  def self.for_cohort(cohort) 
+  def self.for_cohort(cohort)
     statement = "Select * from students where cohort_id = ?;"
     result = Environment.database_connection.execute(statement, cohort.id)
     return nil if result.empty?
@@ -52,6 +52,10 @@ class Student
   def self.last
     statement = "Select * from students order by id DESC limit(1)"
     execute_and_instantiate(statement)[0]
+  end
+
+  def projects
+    Project.for_student(self)
   end
 
   def save

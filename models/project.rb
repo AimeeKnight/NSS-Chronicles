@@ -36,7 +36,7 @@ class Project
     project
   end
 
-  def self.for_student(student) 
+  def self.for_student(student)
     statement = "Select * from projects where student_id = ?;"
     result = Environment.database_connection.execute(statement, student.id)
     return nil if result.empty?

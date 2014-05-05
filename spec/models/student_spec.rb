@@ -121,7 +121,8 @@ describe Student do
   end
 
   context "#new" do
-    let(:student){ Student.new("Aimee", "Knight", "4") }
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
+    let(:student){ Student.new("Aimee", "Knight", test_cohort_1) }
     it "should store the first_name" do
       student.first_name.should == "Aimee"
     end
@@ -153,6 +154,18 @@ describe Student do
       end
       it "should not save the student to the database" do
         result.count.should == 0
+      end
+    end
+  end
+
+  #################### JOIN ####################
+  context "#projects" do
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
+    let(:student){ Student.create("Aimee", "Knight", test_cohort_1.id) }
+    context "delegate to projects" do
+      it "should delegate to the Project" do
+        expect(Project).to receive(:for_student)
+        student.projects
       end
     end
   end
