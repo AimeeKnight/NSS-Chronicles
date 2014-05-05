@@ -1,3 +1,5 @@
+require_relative 'student'
+
 class Cohort
   attr_reader :errors,
               :id
@@ -43,7 +45,7 @@ class Cohort
   end
 
   def students
-    Students.for_cohort(self)
+    Student.for_cohort(self)
   end
 
   def save
