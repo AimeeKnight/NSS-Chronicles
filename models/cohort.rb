@@ -42,6 +42,11 @@ class Cohort
     execute_and_instantiate(statement)[0]
   end
 
+  # join model
+  #def students
+    #CohortStudent.students_for_cohort(self)
+  #end
+
   def save
     if valid?
       statement = "Insert into cohorts (title, languages, term) values (?, ?, ?);"

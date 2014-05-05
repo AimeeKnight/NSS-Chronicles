@@ -32,9 +32,17 @@ class Student
     student
   end
 
+  #def self.for_cohort(cohort) 
+  #end
+
   def self.find_by_first_name(first_name)
     statement = "Select * from students where first_name = ?;"
     execute_and_instantiate(statement, first_name)[0]
+  end
+
+  def self.find_by_id(id)
+    statement = "Select * from students where id = ?;"
+    execute_and_instantiate(statement, id)[0]
   end
 
   def self.last

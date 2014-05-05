@@ -10,7 +10,7 @@ class Project
   def initialize(title, language, student_id, github_url, hosted_url)
     @title = title
     @language = language
-    @studentt_id = student_id
+    @student_id = student_id
     @github_url = github_url
     @hosted_url = hosted_url
   end
