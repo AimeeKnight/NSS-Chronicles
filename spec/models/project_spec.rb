@@ -200,7 +200,7 @@ describe Project do
   context "#to_s" do
     let(:project) { Project.new("Test Title 1", "Ruby", "1", "www.github.com/example", "www.example.com") }
     it "converts to a string with properties" do
-      expect(project.to_s).to eq 'Title: Test Title 1, Language: Ruby, Student Id: 1, GitHub URL: www.github.com/example, Hosted URL: www.example.com'
+      expect(project.to_s).to eq "Title: Test Title 1, Language: Ruby, Student Id: 1, GitHub URL: www.github.com/example, Hosted URL: www.example.com"
     end
   end
 

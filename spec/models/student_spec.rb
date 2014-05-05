@@ -8,10 +8,11 @@ describe Student do
       end
     end
     context "with multiple entries in the database" do
-        let(:aimee){ Student.new("Aimee", "Knight", "4") }
-        let(:jamie){ Student.new("Jamie", "Knight", "4") }
-        let(:jay){ Student.new("Jay", "Knight", "4") }
-        let(:bob){ Student.new("Bob", "Knight", "4") }
+        let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+        let(:aimee){ Student.new("Aimee", "Knight", test_cohort_1.id) }
+        let(:jamie){ Student.new("Jamie", "Knight", test_cohort_1.id) }
+        let(:jay){ Student.new("Jay", "Knight", test_cohort_1.id) }
+        let(:bob){ Student.new("Bob", "Knight", test_cohort_1.id) }
       before do
         aimee.save
         jamie.save
@@ -35,11 +36,12 @@ describe Student do
       end
     end
     context "with multiple students in the database" do
+      let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
       before do
-        Student.new("Aimee", "Knight", "4").save
-        Student.new("Jamie", "Knight", "4").save
-        Student.new("Jay", "Knight", "4").save
-        Student.new("Bob", "Knight", "4").save
+        Student.new("Aimee", "Knight", test_cohort_1.id).save
+        Student.new("Jamie", "Knight", test_cohort_1.id).save
+        Student.new("Jay", "Knight", test_cohort_1.id).save
+        Student.new("Bob", "Knight", test_cohort_1.id).save
       end
       it "should return the correct count" do
         Student.count.should == 4
@@ -54,12 +56,13 @@ describe Student do
       end
     end
     context "given a student with the passed first name in the database" do
-        let(:aimee){ Student.new("Aimee", "Knight", "4") } 
+        let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+        let(:aimee){ Student.new("Aimee", "Knight", test_cohort_1.id) } 
       before do
         aimee.save
-        Student.new("Jamie", "Knight", "4").save
-        Student.new("Jay", "Knight", "4").save
-        Student.new("Bob", "Knight", "4").save
+        Student.new("Jamie", "Knight", test_cohort_1.id).save
+        Student.new("Jay", "Knight", test_cohort_1.id).save
+        Student.new("Bob", "Knight", test_cohort_1.id).save
       end
       it "should return the student with that first_name" do
         Student.find_by_first_name("Aimee").first_name.should == "Aimee"
@@ -70,6 +73,7 @@ describe Student do
     end
   end
 
+  #################### JOIN ####################
   context ".for_cohort" do
     context "with no student in the database" do
       let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
@@ -99,11 +103,12 @@ describe Student do
       end
     end
     context "with multiple students in the database" do
-        let(:bob){ Student.new("Bob", "Knight", "4") }
+      let(:test_cohort_2){ Cohort.create("Test Cohort 2", "JS/Ruby", "Summer 14") }
+      let(:bob){ Student.new("Bob", "Knight", test_cohort_2.id) }
       before do
-        Student.new("Aimee", "Knight", "4").save
-        Student.new("Jamie", "Knight", "4").save
-        Student.new("Jay", "Knight", "4").save
+        Student.new("Aimee", "Knight", test_cohort_2.id).save
+        Student.new("Jamie", "Knight", test_cohort_2.id).save
+        Student.new("Jay", "Knight", test_cohort_2.id).save
         bob.save
       end
       it "should return the last student inserted" do
@@ -124,7 +129,8 @@ describe Student do
 
   context "#create" do
     let(:result){ Environment.database_connection.execute("Select * from students") }
-    let(:student){ Student.create("Aimee", "Knight", "4") }
+    let(:test_cohort_2){ Cohort.create("Test Cohort 2", "JS/Ruby", "Summer 14") }
+    let(:student){ Student.create("Aimee", "Knight", test_cohort_2.id) }
     context "with a valid student" do
       before do
        Student.any_instance.stub(:valid?){ true }
@@ -153,7 +159,8 @@ describe Student do
 
   context "#save" do
     let(:result){ Environment.database_connection.execute("Select first_name from students") }
-    let(:student){ Student.new("Foo", "Knight", "4") }
+    let(:test_cohort_2){ Cohort.create("Test Cohort 2", "JS/Ruby", "Summer 14") }
+    let(:student){ Student.new("Foo", "Knight", test_cohort_2.id) }
     context "with a valid student" do
       before do
         student.stub(:valid?) { true }
@@ -181,7 +188,8 @@ describe Student do
   context "#valid?" do
     let(:result){ Environment.database_connection.execute("Select first_name from students") }
     context "after fixing the errors" do
-      let(:student){ Student.new("123", "Knight", "4") }
+      let(:test_cohort_2){ Cohort.create("Test Cohort 2", "JS/Ruby", "Summer 14") }
+      let(:student){ Student.new("123", "Knight", test_cohort_2.id) }
       it "should return true" do
         student.valid?.should be_false
         student.first_name = "Bar"
@@ -220,9 +228,10 @@ describe Student do
   end
   
   context "#to_s" do
-    let(:student) { Student.new("Aimee", "Knight", "4") }
+    let(:test_cohort_2){ Cohort.create("Test Cohort 2", "JS/Ruby", "Summer 14") }
+    let(:student) { Student.new("Aimee", "Knight", test_cohort_2.id) }
     it "converts to a string with properties" do
-      expect(student.to_s).to eq 'First Name: Aimee, Last Name: Knight, Student Id: 4'
+      expect(student.to_s).to eq "First Name: Aimee, Last Name: Knight, Student Id: #{test_cohort_2.id}"
     end
   end
 

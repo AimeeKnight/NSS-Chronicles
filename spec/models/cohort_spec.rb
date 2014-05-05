@@ -129,6 +129,7 @@ describe Cohort do
     end
   end
 
+  #################### JOIN ####################
   context "#students" do
     let(:cohort){ Cohort.create("Test Cohort Foo", "JS/Ruby", "Spring 14") }
     context "delegate to models" do
@@ -214,7 +215,7 @@ describe Cohort do
   context "#to_s" do
     let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
     it "converts to a string with properties" do
-      expect(cohort.to_s).to eq 'Title: Test Cohort 1, Languages: JS/Ruby, Term: Spring 14'
+      expect(cohort.to_s).to eq "Title: Test Cohort 1, Languages: JS/Ruby, Term: Spring 14"
     end
   end
 

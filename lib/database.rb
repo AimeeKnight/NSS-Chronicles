@@ -17,7 +17,7 @@ class Database < SQLite3::Database
   end
 
   def execute(statement, bind_vars = [])
-    Environment.logger.info("Executing: " + statement)
+    Environment.logger.info("Executing: #{statement} with: #{bind_vars}")
     super(statement, bind_vars)
   end
 end
