@@ -8,10 +8,13 @@ describe Project do
       end
     end
     context "with multiple entries in the database" do
-        let(:test_project_1){ Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com") }
-        let(:test_project_2){ Project.new("Test Project 2", "Ruby", "1", "www.github.com/example", "www.example.com") }
-        let(:test_project_3){ Project.new("Test Project 3", "Ruby", "1", "www.github.com/example", "www.example.com") }
-        let(:test_project_4){ Project.new("Test Project 4", "Ruby", "1", "www.github.com/example", "www.example.com") }
+        let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+        let(:aimee){ Student.new("Aimee", "Knight", test_cohort_1.id) }
+        let(:jamie){ Student.new("Jamie", "Knight", test_cohort_1.id) }
+        let(:test_project_1){ Project.new("Test Project 1", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
+        let(:test_project_2){ Project.new("Test Project 2", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
+        let(:test_project_3){ Project.new("Test Project 3", "Ruby", jamie.id, "www.github.com/example", "www.example.com") }
+        let(:test_project_4){ Project.new("Test Project 4", "Ruby", jamie.id, "www.github.com/example", "www.example.com") }
       before do
         test_project_1.save
         test_project_2.save
@@ -35,11 +38,14 @@ describe Project do
       end
     end
     context "with multiple projects in the database" do
+      let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let(:aimee){ Student.new("Aimee", "Knight", test_cohort_1.id) }
+      let(:jamie){ Student.new("Jamie", "Knight", test_cohort_1.id) }
       before do
-        Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com").save
-        Project.new("Test Project 2", "Ruby", "1", "www.github.com/example", "www.example.com").save
-        Project.new("Test Project 3", "Ruby", "1", "www.github.com/example", "www.example.com").save
-        Project.new("Test Project 4", "Ruby", "1", "www.github.com/example", "www.example.com").save
+        Project.new("Test Project 1", "Ruby", aimee.id, "www.github.com/example", "www.example.com").save
+        Project.new("Test Project 2", "Ruby", aimee.id, "www.github.com/example", "www.example.com").save
+        Project.new("Test Project 3", "Ruby", jamie.id, "www.github.com/example", "www.example.com").save
+        Project.new("Test Project 4", "Ruby", jamie.id, "www.github.com/example", "www.example.com").save
       end
       it "should return the correct count" do
         Project.count.should == 4
@@ -54,12 +60,15 @@ describe Project do
       end
     end
     context "given a project with the passed title in the database" do
-        let(:test_project_1){ Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com") }
+      let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let(:aimee){ Student.new("Aimee", "Knight", test_cohort_1.id) }
+      let(:jamie){ Student.new("Jamie", "Knight", test_cohort_1.id) }
+      let(:test_project_1){ Project.new("Test Project 1", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
       before do
         test_project_1.save
-        Project.new("Test Project 2", "Ruby", "1", "www.github.com/example", "www.example.com").save
-        Project.new("Test Project 3", "Ruby", "1", "www.github.com/example", "www.example.com").save
-        Project.new("Test Project 4", "Ruby", "1", "www.github.com/example", "www.example.com").save
+        Project.new("Test Project 2", "Ruby", jamie.id, "www.github.com/example", "www.example.com").save
+        Project.new("Test Project 3", "Ruby", aimee.id, "www.github.com/example", "www.example.com").save
+        Project.new("Test Project 4", "Ruby", jamie.id, "www.github.com/example", "www.example.com").save
       end
       it "should return the project with that title" do
         Project.find_by_title("Test Project 1").title.should == "Test Project 1"
@@ -77,11 +86,14 @@ describe Project do
       end
     end
     context "with multiple projects in the database" do
-        let(:test_project_4){ Project.new("Test Project 4", "Ruby", "1", "www.github.com/example", "www.example.com") }
+      let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let(:aimee){ Student.new("Aimee", "Knight", test_cohort_1.id) }
+      let(:jamie){ Student.new("Jamie", "Knight", test_cohort_1.id) }
+      let(:test_project_4){ Project.new("Test Project 4", "Ruby", jamie.id, "www.github.com/example", "www.example.com") }
       before do
-        Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com").save
-        Project.new("Test Project 2", "Ruby", "1", "www.github.com/example", "www.example.com").save
-        Project.new("Test Project 3", "Ruby", "1", "www.github.com/example", "www.example.com").save
+        Project.new("Test Project 1", "Ruby", jamie.id, "www.github.com/example", "www.example.com").save
+        Project.new("Test Project 2", "Ruby", aimee.id, "www.github.com/example", "www.example.com").save
+        Project.new("Test Project 3", "Ruby", aimee.id, "www.github.com/example", "www.example.com").save
         test_project_4.save
       end
       it "should return the last project inserted" do
@@ -94,7 +106,9 @@ describe Project do
   end
 
   context "#new" do
-    let(:project){ Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com") }
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+    let(:aimee){ Student.new("Aimee", "Knight", test_cohort_1.id) }
+    let(:project){ Project.new("Test Project 1", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
     it "should store the title" do
       project.title.should == "Test Project 1"
     end
@@ -102,7 +116,9 @@ describe Project do
 
   context "#create" do
     let(:result){ Environment.database_connection.execute("Select * from projects") }
-    let(:project){ Project.create("Test Project Foo", "Ruby", "1", "www.github.com/example", "www.example.com") }
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+    let(:jamie){ Student.new("Jamie", "Knight", test_cohort_1.id) }
+    let(:project){ Project.create("Test Project Foo", "Ruby", jamie.id, "www.github.com/example", "www.example.com") }
     context "with a valid project" do
       before do
        Project.any_instance.stub(:valid?){ true }
@@ -131,7 +147,9 @@ describe Project do
 
   context "#save" do
     let(:result){ Environment.database_connection.execute("Select title from projects") }
-    let(:project){ Project.new("Test Project Foo", "Ruby", "1", "www.github.com/example", "www.example.com") }
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+    let(:jamie){ Student.new("Jamie", "Knight", test_cohort_1.id) }
+    let(:project){ Project.new("Test Project Foo", "Ruby", jamie.id, "www.github.com/example", "www.example.com") }
     context "with a valid project" do
       before do
         project.stub(:valid?) { true }
@@ -158,8 +176,10 @@ describe Project do
 
   context "#valid?" do
     let(:result){ Environment.database_connection.execute("Select title from projects") }
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+    let(:jamie){ Student.new("Jamie", "Knight", test_cohort_1.id) }
     context "after fixing the errors" do
-      let(:project){ Project.new("123", "Ruby", "1", "www.github.com/example", "www.example.com") }
+      let(:project){ Project.new("123", "Ruby", jamie.id, "www.github.com/example", "www.example.com") }
       it "should return true" do
         project.valid?.should be_false
         project.title = "Test Project Bar"
@@ -167,13 +187,13 @@ describe Project do
       end
     end
     context "with a unique title" do
-      let(:project){ Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com") }
+      let(:project){ Project.new("Test Project 1", "Ruby", jamie.id, "www.github.com/example", "www.example.com") }
       it "should return true" do
         project.valid?.should be_true
       end
     end
     context "with an invalid title" do
-      let(:project){ Project.new("123", "Ruby", "1", "www.github.com/example", "www.example.com") }
+      let(:project){ Project.new("123", "Ruby", jamie.id, "www.github.com/example", "www.example.com") }
       it "should return false" do
         project.valid?.should be_false
       end
@@ -183,9 +203,9 @@ describe Project do
       end
     end
     context "with a duplicate title" do
-      let(:project){ Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com") }
+      let(:project){ Project.new("Test Project 1", "Ruby", jamie.id, "www.github.com/example", "www.example.com") }
       before do
-        Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com").save
+        Project.new("Test Project 1", "Ruby", jamie.id, "www.github.com/example", "www.example.com").save
       end
       it "should return false" do
         project.valid?.should be_false
@@ -198,9 +218,11 @@ describe Project do
   end
 
   context "#to_s" do
-    let(:project) { Project.new("Test Title 1", "Ruby", "1", "www.github.com/example", "www.example.com") }
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+    let(:jamie){ Student.new("Jamie", "Knight", test_cohort_1.id) }
+    let(:project) { Project.new("Test Title 1", "Ruby", jamie.id, "www.github.com/example", "www.example.com") }
     it "converts to a string with properties" do
-      expect(project.to_s).to eq "Title: Test Title 1, Language: Ruby, Student Id: 1, GitHub URL: www.github.com/example, Hosted URL: www.example.com"
+      expect(project.to_s).to eq "Title: Test Title 1, Language: Ruby, Student Id: #{jamie.id}, GitHub URL: www.github.com/example, Hosted URL: www.example.com"
     end
   end
 
