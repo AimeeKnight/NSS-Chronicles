@@ -70,6 +70,28 @@ describe Student do
     end
   end
 
+  context ".for_cohort" do
+    context "with no student in the database" do
+      let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      it "should not return any students" do
+        Student.for_cohort(test_cohort_1).should == nil
+      end
+    end
+    context "with multiple students in the database" do
+      let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let!(:aimee){ Student.create("Aimee", "Knight", test_cohort_1.id) }
+      let!(:jamie){ Student.create("Jamie", "Knight", test_cohort_1.id) }
+      let!(:jay){ Student.create("Jay", "Knight", test_cohort_1.id) }
+      let!(:bob){ Student.create("Bob", "Knight", test_cohort_1.id) }
+      it "should return 4 students" do
+        Student.for_cohort(test_cohort_1).length.should == 4
+      end
+      it "the should return students from the cohort that was passed in" do
+        Student.for_cohort(test_cohort_1)[0]["cohort_id"].should == test_cohort_1.id
+      end
+    end
+  end
+
   context ".last" do
     context "with no students in the database" do
       it "should return nil" do

@@ -32,8 +32,12 @@ class Student
     student
   end
 
-  #def self.for_cohort(cohort) 
-  #end
+  def self.for_cohort(cohort) 
+    statement = "Select * from students where cohort_id = ?;"
+    result = Environment.database_connection.execute(statement, cohort.id)
+    return nil if result.empty?
+    result
+  end
 
   def self.find_by_first_name(first_name)
     statement = "Select * from students where first_name = ?;"
