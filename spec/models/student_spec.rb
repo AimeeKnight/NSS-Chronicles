@@ -120,6 +120,27 @@ describe Student do
     end
   end
 
+  context "#alumni?" do
+    context "the default value when adding a student" do
+      let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
+      let(:student){ Student.new("Aimee", "Knight", test_cohort_1) }
+      it "a student's alumni status should be false" do
+        student.alumni?.should == false
+      end
+    end
+  end
+
+  context "#alumni" do
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
+    let(:student){ Student.new("Aimee", "Knight", test_cohort_1) }
+    before do
+      student.alumni(true)
+    end
+    it "should set the student's alumni status" do
+      result[0]["alumni"].should == true
+    end
+  end
+
   context "#new" do
     let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
     let(:student){ Student.new("Aimee", "Knight", test_cohort_1) }

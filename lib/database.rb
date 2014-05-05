@@ -12,7 +12,7 @@ class Database < SQLite3::Database
 
   def create_tables
     self.execute("CREATE TABLE cohorts (id INTEGER PRIMARY KEY AUTOINCREMENT, title varchar(50), languages varchar(75), term varchar(50));")
-    self.execute("CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, first_name varchar(50), last_name varchar(50), cohort_id INTEGER);")
+    self.execute("CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT, first_name varchar(50), last_name varchar(50), cohort_id INTEGER, alumni INTEGER);")
     self.execute("CREATE TABLE projects (id INTEGER PRIMARY KEY AUTOINCREMENT, title varchar(50), language varchar(50), student_id INTEGER, github_url varchar(50), hosted_url varchar(50));")
   end
 

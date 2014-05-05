@@ -9,6 +9,7 @@ class Student
     @first_name = first_name
     @last_name = last_name
     @cohort_id = cohort_id
+    @alumni = false
   end
 
   def to_s
@@ -54,14 +55,23 @@ class Student
     execute_and_instantiate(statement)[0]
   end
 
+  def alumni?
+    @alumni
+  end
+
+  def alumni(value)
+    #statement = "Update * from students order by id DESC limit(1)"
+    #"UPDATE Friends SET Name='Thomas' WHERE Id=1"
+  end
+
   def projects
     Project.for_student(self)
   end
 
   def save
     if valid?
-      statement = "Insert into students (first_name, last_name, cohort_id) values (?, ?, ?);"
-      Environment.database_connection.execute(statement, [first_name, last_name, cohort_id])
+      statement = "Insert into students (first_name, last_name, cohort_id, alumni) values (?, ?, ?, ?);"
+      Environment.database_connection.execute(statement, [first_name, last_name, cohort_id, 0])
       @id = Environment.database_connection.execute("SELECT last_insert_rowid();")[0][0]
       true
     else
