@@ -79,6 +79,32 @@ describe Project do
     end
   end
 
+  #################### JOIN ####################
+  context ".for_student" do
+    context "without projects in the database" do
+      let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let(:aimee){ Student.create("Aimee", "Knight", test_cohort_1.id) }
+      it "should not return any projects" do
+        Project.for_student(aimee).should == nil
+      end
+    end
+    context "with multiple projects in the database" do
+      let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let(:aimee){ Student.create("Aimee", "Knight", test_cohort_1.id) }
+      let(:jamie){ Student.create("Jamie", "Knight", test_cohort_1.id) }
+      let!(:test_project_1){ Project.create("Test Project 1", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
+      let!(:test_project_2){ Project.create("Test Project 2", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
+      let!(:test_project_3){ Project.create("Test Project 3", "Ruby", jamie.id, "www.github.com/example", "www.example.com") }
+      let!(:test_project_4){ Project.create("Test Project 4", "Ruby", jamie.id, "www.github.com/example", "www.example.com") }
+      it "should return 2 projects" do
+        Project.for_student(aimee).length.should == 2
+      end
+      it "the should return projects for the student that was passed in" do
+        Project.for_student(aimee)[0]["student_id"].should == aimee.id
+      end
+    end
+  end
+
   context ".last" do
     context "with no projects in the database" do
       it "should return nil" do
