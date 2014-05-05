@@ -198,10 +198,8 @@ describe Student do
   end
   
   context "#to_s" do
-    #let(:student) { Student.new("Aimee", "Knight", "4") }
-
+    let(:student) { Student.new("Aimee", "Knight", "4") }
     it "converts to a string with properties" do
-      pending
       expect(student.to_s).to eq 'First Name: Aimee, Last Name: Knight, Student Id: 4'
     end
   end

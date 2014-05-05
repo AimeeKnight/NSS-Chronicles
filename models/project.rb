@@ -15,9 +15,9 @@ class Project
     @hosted_url = hosted_url
   end
 
-  #def to_s
-    #"Title: #{title}, Language: #{language}, Student Id: #{student_id}, GitHub URL: #{github_url}, Hosted URL: #{hosted_url}"
-  #end
+  def to_s
+    "Title: #{title}, Language: #{language}, Student Id: #{student_id}, GitHub URL: #{github_url}, Hosted URL: #{hosted_url}"
+  end
 
   def self.all
     statement = "Select * from projects;"

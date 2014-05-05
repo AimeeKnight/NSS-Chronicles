@@ -11,9 +11,9 @@ class Cohort
     @term = term
   end
 
-  #def to_s
-    #"Title: #{title}, Primary langages: #{primary_languages}, Term: #{term}"
-  #end
+  def to_s
+    "Title: #{title}, Languages: #{languages}, Term: #{term}"
+  end
 
   def self.all
     statement = "Select * from cohorts;"

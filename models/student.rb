@@ -11,9 +11,9 @@ class Student
     @cohort_id = cohort_id
   end
 
-  #def to_s
-    #"First Name: #{first_name}, Last Name: #{last_name}, Student Id: #{cohort_id}"
-  #end
+  def to_s
+    "First Name: #{first_name}, Last Name: #{last_name}, Student Id: #{cohort_id}"
+  end
 
   def self.all
     statement = "Select * from students;"
