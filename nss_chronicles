@@ -38,6 +38,7 @@ def add_cohort
 end
 
 def show_cohorts
+  puts "COHORTS"
   Cohort.all.map { |cohort| puts "#{cohort.to_s}"}
 end
 
@@ -57,6 +58,7 @@ def add_student
 end
 
 def show_students
+  puts "STUDENTS"
   Student.all.map { |student| puts "#{student.to_s}"}
 end
 

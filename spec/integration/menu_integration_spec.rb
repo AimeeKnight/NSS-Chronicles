@@ -24,12 +24,24 @@ EOS
     end
   end
   context "the user selects 2" do
+    let(:shell_output){ run_nss_chronicles_with_input("2") }
+    it "should print the next menu" do
+      shell_output.should include("COHORTS")
+    end
+  end
+  context "the user selects 3" do
     let(:shell_output){ run_nss_chronicles_with_input("3") }
     it "should print the next menu" do
       shell_output.should include("Please enter the student as first name, last name, cohort id")
     end
   end
-  context "the user selects 3" do
+  context "the user selects 4" do
+    let(:shell_output){ run_nss_chronicles_with_input("4") }
+    it "should print the next menu" do
+      shell_output.should include("STUDENTS")
+    end
+  end
+  context "the user selects 5" do
     let(:shell_output){ run_nss_chronicles_with_input("5") }
     it "should print the next menu" do
       shell_output.should include("Please enter the project as: title, primary language, student id, github url, hosted url")
