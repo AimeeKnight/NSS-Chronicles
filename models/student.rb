@@ -38,6 +38,7 @@ class Student
     result = Environment.database_connection.execute(statement, cohort.id)
     return nil if result.empty?
     result
+    #map and create students
   end
 
   def self.find_by_first_name(first_name)
@@ -59,9 +60,10 @@ class Student
     @alumni
   end
 
-  def alumni(value)
-    #statement = "Update * from students order by id DESC limit(1)"
-    #"UPDATE Friends SET Name='Thomas' WHERE Id=1"
+  def make_alumni
+    statement = "Update students set alumni = 1 where id = ?;"
+    Environment.database_connection.execute(statement, self.id)[0]
+    @alumni = true
   end
 
   def projects

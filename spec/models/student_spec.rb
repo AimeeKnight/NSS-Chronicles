@@ -122,22 +122,30 @@ describe Student do
 
   context "#alumni?" do
     context "the default value when adding a student" do
+      let(:result){ Environment.database_connection.execute("Select * from students where id = #{student.id}") }
       let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
-      let(:student){ Student.new("Aimee", "Knight", test_cohort_1) }
-      it "a student's alumni status should be false" do
+      let(:student){ Student.create("Aimee", "Knight", test_cohort_1.id) }
+      it "a student's default alumni status should be false" do
         student.alumni?.should == false
+      end
+      it "the students status in the database she also default to false" do
+        result[0]["alumni"].should == 0
       end
     end
   end
 
-  context "#alumni" do
+  context "#make_alumni" do
+    let(:result){ Environment.database_connection.execute("Select * from students where id = #{student.id}") }
     let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
-    let(:student){ Student.new("Aimee", "Knight", test_cohort_1) }
+    let(:student){ Student.create("Aimee", "Knight", test_cohort_1.id) }
     before do
-      student.alumni(true)
+      student.make_alumni
     end
     it "should set the student's alumni status" do
-      result[0]["alumni"].should == true
+      student.alumni?.should == true
+    end
+    it "should update the students status in the database" do
+      result[0]["alumni"].should == 1
     end
   end
 

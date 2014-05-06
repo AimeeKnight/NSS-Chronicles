@@ -41,6 +41,7 @@ class Project
     result = Environment.database_connection.execute(statement, student.id)
     return nil if result.empty?
     result
+    #map and create projects
   end
 
   def self.find_by_title(title)
