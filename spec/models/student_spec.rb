@@ -29,6 +29,37 @@ describe Student do
     end
   end
 
+  context ".alumni" do
+    context "with no students in the database" do
+      it "should return an empty array" do
+        Student.all.should == []
+      end
+    end
+    context "with multiple alumni in the database" do
+      let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let(:aimee){ Student.create("Aimee", "Knight", test_cohort_1.id) }
+      let(:jamie){ Student.create("Jamie", "Knight", test_cohort_1.id) }
+      let(:jay){ Student.create("Jay", "Knight", test_cohort_1.id) }
+      before do
+        aimee.save
+        jamie.save
+        jay.save
+        aimee.make_alumni
+        jamie.make_alumni
+      end
+      it "should return 2 students" do
+        Student.alumni.length.should == 2
+      end
+      it "should return only the students who are alumni" do
+        Student.alumni[0].alumni?.should == 1
+      end
+      it "should return the last student as an alumni" do
+        puts "#{Student.alumni}"
+        Student.alumni.last.alumni?.should == 1
+      end
+    end
+  end
+
   context ".count" do
     context "with no students in the database" do
       it "should return 0" do
@@ -293,7 +324,7 @@ describe Student do
     let(:test_cohort_2){ Cohort.create("Test Cohort 2", "JS/Ruby", "Summer 14") }
     let(:student) { Student.create("Aimee", "Knight", test_cohort_2.id) }
     it "converts to a string with properties" do
-      expect(student.to_s).to eq "Id: #{student.id}, First Name: Aimee, Last Name: Knight, Cohort Id: #{test_cohort_2.id}, Alumni: false"
+      expect(student.to_s).to eq "ID: #{student.id}, FIRST NAME: Aimee, LAST NAME: Knight, COHORT ID: #{test_cohort_2.id}, ALUMNI: false"
     end
   end
 

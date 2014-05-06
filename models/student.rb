@@ -5,19 +5,29 @@ class Student
                 :last_name,
                 :cohort_id
 
-  def initialize (first_name, last_name, cohort_id)
+  def initialize (first_name, last_name, cohort_id, alumni = false)
     @first_name = first_name
     @last_name = last_name
     @cohort_id = cohort_id
-    @alumni = false
+    @alumni = alumni
   end
 
   def to_s
-    "Id: #{@id}, First Name: #{first_name}, Last Name: #{last_name}, Cohort Id: #{cohort_id}, Alumni: #{@alumni}"
+    "ID: #{@id}, FIRST NAME: #{first_name}, LAST NAME: #{last_name}, COHORT ID: #{cohort_id}, ALUMNI: #{@alumni}"
   end
 
   def self.all
     statement = "Select * from students;"
+    execute_and_instantiate(statement)
+  end
+
+  def self.alumni
+    statement = "Select * from students where alumni = 1;"
+    execute_and_instantiate(statement)
+  end
+
+  def self.current
+    statement = "Select * from students where alumni = 0;"
     execute_and_instantiate(statement)
   end
 
@@ -109,7 +119,7 @@ class Student
     rows = Environment.database_connection.execute(statement, bind_vars)
     results = []
     rows.each do |row|
-      student = Student.new(row["first_name"], row["last_name"], row["cohort_id"])
+      student = Student.new(row["first_name"], row["last_name"], row["cohort_id"], row["alumni"])
       student.instance_variable_set(:@id, row["id"])
       results << student
     end

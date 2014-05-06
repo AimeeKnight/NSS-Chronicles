@@ -224,7 +224,7 @@ describe Cohort do
   context "#to_s" do
     let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
     it "converts to a string with properties" do
-      expect(cohort.to_s).to eq "Id: #{cohort.id}, Title: Test Cohort 1, Languages: JS/Ruby, Term: Spring 14"
+      expect(cohort.to_s).to eq "ID: #{cohort.id}, TITLE: Test Cohort 1, LANGUAGES: JS/Ruby, TERM: Spring 14"
     end
   end
 

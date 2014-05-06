@@ -58,8 +58,26 @@ def add_student
 end
 
 def show_students
-  puts "STUDENTS"
-  Student.all.map { |student| puts "#{student.to_s}"}
+  puts "please enter a grouping: <alumni>, <current>, or <all>"
+  student_selection = gets
+  return unless student_selection
+  student_selection.chomp!
+  if student_selection == "alumni"
+    puts "______"
+    puts "ALUMNI"
+    puts "______"
+    Student.alumni.map { |student| puts "#{student.to_s}" }
+  elsif student_selection == "current"
+    puts "________________"
+    puts "CURRENT STUDENTS"
+    puts "________________"
+    Student.current.map { |student| puts "#{student.to_s}" }
+  else
+    puts "________"
+    puts "STUDENTS"
+    puts "________"
+    Student.all.map { |student| puts "#{student.to_s}"}
+  end
 end
 
 #################### PROJECT #################### 
