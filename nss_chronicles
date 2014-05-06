@@ -15,8 +15,10 @@ def menu
 <<EOS
 What do you want to do?
 1. Add Cohort
-2. Add Student
-3. Add Project
+2. Show Cohorts
+3. Add Student
+4. Show Students
+5. Add Project
 EOS
 end
 
@@ -35,6 +37,10 @@ def add_cohort
   end
 end
 
+def show_cohorts
+  Cohort.all.map { |cohort| puts "#{cohort.to_s}"}
+end
+
 #################### STUDENT #################### 
 def add_student
   puts "Please enter the student as first name, last name, cohort id"
@@ -48,6 +54,10 @@ def add_student
     puts student.errors
     add_student
   end
+end
+
+def show_students
+  Student.all.map { |student| puts "#{student.to_s}"}
 end
 
 #################### PROJECT #################### 
@@ -70,11 +80,16 @@ def get_menu_selection
   input = gets
   return unless input
   input.chomp!
-  if input == "1"
+  case input
+  when "1"
     add_cohort
-  elsif input == "2"
+  when "2"
+    show_cohorts
+  when "3"
     add_student
-  elsif input == "3"
+  when "4"
+    show_students
+  when "5"
     add_project
   else
     puts "'#{input}' is not a valid selection"

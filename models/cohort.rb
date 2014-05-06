@@ -14,7 +14,7 @@ class Cohort
   end
 
   def to_s
-    "Title: #{title}, Languages: #{languages}, Term: #{term}"
+    "Id: #{@id}, Title: #{title}, Languages: #{languages}, Term: #{term}"
   end
 
   def self.all

@@ -6,7 +6,7 @@ describe "Adding a project" do
     project.save
   end
   context "adding a unique project" do
-    let!(:output){ run_nss_chronicles_with_input("3", "Test Project 2, Ruby, 1, www.github.com/example, www.example.com") }
+    let!(:output){ run_nss_chronicles_with_input("5", "Test Project 2, Ruby, 1, www.github.com/example, www.example.com") }
     it "should print a confirmation message" do
       output.should include("Test Project 2 has been added.")
       Project.count.should == 2
@@ -19,7 +19,7 @@ describe "Adding a project" do
     end
   end
   context "adding a duplicate project" do
-    let(:output){ run_nss_chronicles_with_input("3", "Test Project 1, Ruby, 1, www.github.com/example, www.example.com") }
+    let(:output){ run_nss_chronicles_with_input("5", "Test Project 1, Ruby, 1, www.github.com/example, www.example.com") }
     it "should print an error message" do
       output.should include("Test Project 1 already exists.")
     end
@@ -31,7 +31,7 @@ describe "Adding a project" do
       Project.count.should == 1
     end
     context "and trying again" do
-      let!(:output){ run_nss_chronicles_with_input("3", "Test Project 1, Ruby, 1, www.github.com/example, www.example.com", "Test Project 3, Ruby, 1, www.github.com/example, www.example.com") }
+      let!(:output){ run_nss_chronicles_with_input("5", "Test Project 1, Ruby, 1, www.github.com/example, www.example.com", "Test Project 3, Ruby, 1, www.github.com/example, www.example.com") }
       it "should save a unique item" do
         Project.last.title.should == "Test Project 3"
       end
@@ -43,7 +43,7 @@ describe "Adding a project" do
   context "entering an invalid looking project title" do
     context "with SQL injection" do
       let(:input){ "Test Project 4, Ruby, 1, www.github.com/example, www.example.com'), ('425" }
-      let!(:output) { run_nss_chronicles_with_input("3", input) }
+      let!(:output) { run_nss_chronicles_with_input("5", input) }
       it "should create the project without evaluating the SQL" do
         Project.last.title.should == "Test Project 4"
       end
@@ -55,7 +55,7 @@ describe "Adding a project" do
       end
     end
     context "without alphabet characters" do
-      let(:output){ run_nss_chronicles_with_input("3", "4*25") }
+      let(:output){ run_nss_chronicles_with_input("5", "4*25") }
       it "should not save the project" do
         Project.count.should == 1
       end

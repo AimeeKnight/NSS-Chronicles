@@ -288,12 +288,12 @@ describe Student do
       end
     end
   end
-  
+
   context "#to_s" do
     let(:test_cohort_2){ Cohort.create("Test Cohort 2", "JS/Ruby", "Summer 14") }
-    let(:student) { Student.new("Aimee", "Knight", test_cohort_2.id) }
+    let(:student) { Student.create("Aimee", "Knight", test_cohort_2.id) }
     it "converts to a string with properties" do
-      expect(student.to_s).to eq "First Name: Aimee, Last Name: Knight, Student Id: #{test_cohort_2.id}"
+      expect(student.to_s).to eq "Id: #{student.id}, First Name: Aimee, Last Name: Knight, Cohort Id: #{test_cohort_2.id}, Alumni: false"
     end
   end
 

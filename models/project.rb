@@ -16,7 +16,7 @@ class Project
   end
 
   def to_s
-    "Title: #{title}, Language: #{language}, Student Id: #{student_id}, GitHub URL: #{github_url}, Hosted URL: #{hosted_url}"
+    "Id: #{@id}, Title: #{title}, Language: #{language}, Student Id: #{student_id}, GitHub URL: #{github_url}, Hosted URL: #{hosted_url}"
   end
 
   def self.all

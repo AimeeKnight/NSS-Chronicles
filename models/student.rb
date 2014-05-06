@@ -13,7 +13,7 @@ class Student
   end
 
   def to_s
-    "First Name: #{first_name}, Last Name: #{last_name}, Student Id: #{cohort_id}"
+    "Id: #{@id}, First Name: #{first_name}, Last Name: #{last_name}, Cohort Id: #{cohort_id}, Alumni: #{@alumni}"
   end
 
   def self.all

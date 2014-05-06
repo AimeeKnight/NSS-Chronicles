@@ -6,7 +6,7 @@ describe "Adding a student" do
     student.save
   end
   context "adding a unique student" do
-    let!(:output){ run_nss_chronicles_with_input("2", "Jamie, Knight, 4") }
+    let!(:output){ run_nss_chronicles_with_input("3", "Jamie, Knight, 4") }
     it "should print a confirmation message" do
       output.should include("Jamie has been added.")
       Student.count.should == 2
@@ -19,7 +19,7 @@ describe "Adding a student" do
     end
   end
   context "adding a duplicate student" do
-    let(:output){ run_nss_chronicles_with_input("2", "Aimee, Knight, 4") }
+    let(:output){ run_nss_chronicles_with_input("3", "Aimee, Knight, 4") }
     it "should print an error message" do
       output.should include("Aimee already exists.")
     end
@@ -31,7 +31,7 @@ describe "Adding a student" do
       Student.count.should == 1
     end
     context "and trying again" do
-      let!(:output){ run_nss_chronicles_with_input("2", "Aimee, Knight, 4", "Jay, Knight, 4") }
+      let!(:output){ run_nss_chronicles_with_input("3", "Aimee, Knight, 4", "Jay, Knight, 4") }
       it "should save a unique item" do
         Student.last.first_name.should == "Jay"
       end
@@ -43,7 +43,7 @@ describe "Adding a student" do
   context "entering an invalid looking student name" do
     context "with SQL injection" do
       let(:input){ "Bob, Smith, 4'), ('425" }
-      let!(:output) { run_nss_chronicles_with_input("2", input) }
+      let!(:output) { run_nss_chronicles_with_input("3", input) }
       it "should create the student without evaluating the SQL" do
         Student.last.first_name.should == "Bob"
       end
@@ -55,7 +55,7 @@ describe "Adding a student" do
       end
     end
     context "without alphabet characters" do
-      let(:output){ run_nss_chronicles_with_input("2", "4*25") }
+      let(:output){ run_nss_chronicles_with_input("3", "4*25") }
       it "should not save the student" do
         Student.count.should == 1
       end
