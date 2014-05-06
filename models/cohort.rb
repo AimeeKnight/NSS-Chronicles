@@ -48,6 +48,10 @@ class Cohort
     Student.for_cohort(self)
   end
 
+  def projects
+    Student.for_project(self)
+  end
+
   def save
     if valid?
       statement = "Insert into cohorts (title, languages, term) values (?, ?, ?);"
