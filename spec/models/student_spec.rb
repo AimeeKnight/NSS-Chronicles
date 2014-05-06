@@ -73,7 +73,6 @@ describe Student do
     end
   end
 
-  #################### JOIN ####################
   context ".for_cohort" do
     context "with no student in the database" do
       let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
@@ -92,6 +91,28 @@ describe Student do
       end
       it "the should return students from the cohort that was passed in" do
         Student.for_cohort(test_cohort_1)[0]["cohort_id"].should == test_cohort_1.id
+      end
+    end
+  end
+
+  context ".for_project" do
+    context "with multiple project in the database" do
+      let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let(:aimee){ Student.create("Aimee", "Knight", test_cohort_1.id) }
+      let!(:test_project_1){ Project.create("Test Project 1", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
+      let!(:test_project_2){ Project.create("Test Project 2", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
+      let!(:test_project_3){ Project.create("Test Project 3", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
+      it "should return 3 projects" do
+        Student.for_project(test_cohort_1).length.should == 3
+      end
+      it "should the first name for a student who worked on a project in the cohort" do
+        Student.for_project(test_cohort_1)[0]["first_name"].should == aimee.first_name
+      end
+      it "should the last name for a student who worked on a project in the cohort" do
+        Student.for_project(test_cohort_1)[0]["last_name"].should == aimee.last_name
+      end
+      it "should return a title for the projects in the cohort" do
+        Student.for_project(test_cohort_1)[0]["title"].should == test_project_1.title
       end
     end
   end
@@ -187,7 +208,6 @@ describe Student do
     end
   end
 
-  #################### JOIN ####################
   context "#projects" do
     let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
     let(:student){ Student.create("Aimee", "Knight", test_cohort_1.id) }

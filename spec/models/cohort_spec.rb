@@ -129,7 +129,6 @@ describe Cohort do
     end
   end
 
-  #################### JOIN ####################
   context "#students" do
     let(:cohort){ Cohort.create("Test Cohort Foo", "JS/Ruby", "Spring 14") }
     context "delegate to models" do

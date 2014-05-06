@@ -79,7 +79,6 @@ describe Project do
     end
   end
 
-  #################### JOIN ####################
   context ".for_student" do
     context "without projects in the database" do
       let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
