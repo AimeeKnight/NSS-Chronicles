@@ -38,10 +38,9 @@ class Project
 
   def self.for_student(student)
     statement = "Select * from projects where student_id = ?;"
-    result = Environment.database_connection.execute(statement, student.id)
+    result = execute_and_instantiate(statement, student.id)
     return nil if result.empty?
     result
-    #map and create projects
   end
 
   def self.find_by_title(title)

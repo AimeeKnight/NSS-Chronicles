@@ -99,7 +99,7 @@ describe Project do
         Project.for_student(aimee).length.should == 2
       end
       it "the should return projects for the student that was passed in" do
-        Project.for_student(aimee)[0]["student_id"].should == aimee.id
+        Project.for_student(aimee)[0].student_id.should == aimee.id
       end
     end
   end
