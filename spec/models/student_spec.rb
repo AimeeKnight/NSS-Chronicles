@@ -41,9 +41,6 @@ describe Student do
       let(:jamie){ Student.create("Jamie", "Knight", test_cohort_1.id) }
       let(:jay){ Student.create("Jay", "Knight", test_cohort_1.id) }
       before do
-        aimee.save
-        jamie.save
-        jay.save
         aimee.make_alumni
         jamie.make_alumni
       end

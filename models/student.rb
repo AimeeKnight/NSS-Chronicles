@@ -3,7 +3,8 @@ class Student
               :id
   attr_accessor :first_name,
                 :last_name,
-                :cohort_id
+                :cohort_id,
+                :alumni
 
   def initialize (first_name, last_name, cohort_id, alumni = false)
     @first_name = first_name
@@ -83,8 +84,8 @@ class Student
   end
 
   def make_alumni
-    statement = "Update students set alumni = 1 where id = ?;"
-    Environment.database_connection.execute(statement, self.id)[0]
+    self.alumni = 1
+    self.save
     @alumni = true
   end
 
@@ -93,6 +94,10 @@ class Student
   end
 
   def save
+    if self.id
+      statement = "Update students set first_name = ?, last_name = ?, cohort_id = ?, alumni = ? where id = ?;"
+      Environment.database_connection.execute(statement, [self.first_name, self.last_name, self.cohort_id, self.alumni, self.id])[0]
+    end
     if valid?
       statement = "Insert into students (first_name, last_name, cohort_id, alumni) values (?, ?, ?, ?);"
       Environment.database_connection.execute(statement, [first_name, last_name, cohort_id, 0])
