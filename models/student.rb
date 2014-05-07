@@ -46,10 +46,9 @@ class Student
 
   def self.for_cohort(cohort)
     statement = "Select * from students where cohort_id = ?;"
-    result = Environment.database_connection.execute(statement, cohort.id)
+    result = execute_and_instantiate(statement, cohort.id)
     return nil if result.empty?
     result
-    #map and create students
   end
 
   def self.for_project(cohort)

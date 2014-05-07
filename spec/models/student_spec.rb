@@ -51,7 +51,6 @@ describe Student do
         Student.alumni[0].alumni?.should == 1
       end
       it "should return the last student as an alumni" do
-        puts "#{Student.alumni}"
         Student.alumni.last.alumni?.should == 1
       end
     end
@@ -110,15 +109,16 @@ describe Student do
     end
     context "with multiple students in the database" do
       let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let(:test_cohort_2){ Cohort.create("Test Cohort 2", "JS/Ruby", "Spring 14") }
       let!(:aimee){ Student.create("Aimee", "Knight", test_cohort_1.id) }
       let!(:jamie){ Student.create("Jamie", "Knight", test_cohort_1.id) }
       let!(:jay){ Student.create("Jay", "Knight", test_cohort_1.id) }
-      let!(:bob){ Student.create("Bob", "Knight", test_cohort_1.id) }
+      let!(:bob){ Student.create("Bob", "Knight", test_cohort_2.id) }
       it "should return 4 students" do
-        Student.for_cohort(test_cohort_1).length.should == 4
+        Student.for_cohort(test_cohort_1).length.should == 3
       end
       it "the should return students from the cohort that was passed in" do
-        Student.for_cohort(test_cohort_1)[0]["cohort_id"].should == test_cohort_1.id
+        Student.for_cohort(test_cohort_1)[0].cohort_id.should == test_cohort_1.id
       end
     end
   end
