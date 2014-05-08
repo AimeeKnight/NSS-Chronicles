@@ -137,10 +137,13 @@ def show_projects
     puts "_________________________"
     Student.for_project(cohort).map { |project| puts "#{Student.join_to_s(project)}" }
   when "student"
-    puts "please enter the student id"
-    student_id = gets
-    return unless  student_id
-    student = Student.find_by_id(student_id.chomp!)
+    puts "please enter the student's first name"
+    first = gets
+    return unless  first
+    puts "please enter the student's last name"
+    last = gets
+    return unless  last
+    student = Student.find_by_first_and_last_name(first.chomp!, last.chomp!)
     puts "_________________________"
     puts "#{student.first_name.upcase} #{student.last_name.upcase}'S PROJECTS".center(25)
     puts "_________________________"
