@@ -2,12 +2,14 @@
 
 $LOAD_PATH << "lib"
 $LOAD_PATH << "models"
+$LOAD_PATH << "controllers"
 
 require 'environment'
 Environment.environment = ENV["ENVIRONMENT"] || "production"
 $stderr = $stdout
 
 require 'cohort'
+require 'cohorts'
 require 'student'
 require 'project'
 
@@ -44,7 +46,9 @@ def add_cohort
 end
 
 def show_cohorts
+  puts "_________________________"
   puts "COHORTS"
+  puts "_________________________"
   Cohort.all.map { |cohort| puts "#{cohort.to_s}"}
 end
 
@@ -140,10 +144,8 @@ def show_projects
       puts "No records found for #{cohort}"
       return
     end
-    puts "_________________________"
-    puts "#{cohort.title.upcase} PROJECTS".center(25)
-    puts "_________________________"
-    Student.for_project(cohort).map { |project| puts "#{Student.join_to_s(project)}" }
+    header_to_s("#{cohort.title} projects")
+    Student.projects_from_cohort(cohort).map { |project| puts "#{Student.join_to_s(project)}" }
   when "student"
     puts "please enter the student's first name"
     first = gets
@@ -151,19 +153,15 @@ def show_projects
     puts "please enter the student's last name"
     last = gets
     return unless last
-    student = Student.find_by_first_and_last_name(first.chomp!, last.chomp!)
+    student = Student.find_by_first_and_last_name(first.capitalize.chomp!, last.capitalize.chomp!)
     if student.nil?
       puts "No records found for #{first.chomp}, #{last.chomp}"
       return
     end
-    puts "_________________________"
-    puts "#{student.first_name.upcase} #{student.last_name.upcase}'S PROJECTS".center(25)
-    puts "_________________________"
+    header_to_s("#{student.first_name} #{student.last_name}'s projects")
     Project.for_student(student).map { |project| puts "#{project.to_s}" }
   else
-    puts "_________________________"
-    puts "PROJECTS".center(25)
-    puts "_________________________"
+    header_to_s("projects")
     Project.all.map { |project| puts "#{project.to_s}" }
   end
 end
@@ -190,6 +188,12 @@ def get_menu_selection
     puts "'#{input}' is not a valid selection"
     get_menu_selection
   end
+end
+
+def header_to_s(title) 
+  puts "_________________________"
+  puts "#{title.upcase}".center(25)
+  puts "_________________________"
 end
 
 get_menu_selection

@@ -1,9 +1,11 @@
 require 'rspec/expectations'
 $LOAD_PATH << "lib"
 $LOAD_PATH << "models"
+$LOAD_PATH << "controllers"
 
 require 'environment'
 require 'cohort'
+require 'cohorts'
 require 'student'
 require 'project'
 
