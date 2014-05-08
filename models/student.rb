@@ -72,6 +72,11 @@ class Student
     execute_and_instantiate(statement, first_name)[0]
   end
 
+  def self.find_by_first_and_last_name(first_name, last_name)
+    statement = "Select * from students where first_name = ? and last_name = ?;"
+    execute_and_instantiate(statement, [first_name, last_name])[0]
+  end
+
   def self.find_by_id(id)
     statement = "Select * from students where id = ?;"
     execute_and_instantiate(statement, id)[0]

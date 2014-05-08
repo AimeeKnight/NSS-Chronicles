@@ -100,6 +100,33 @@ describe Student do
     end
   end
 
+  context ".find_by_first_and_last_name" do
+    context "with no students in the database" do
+      it "should return 0" do
+        Student.find_by_first_and_last_name("Aimee", "Knight").should be_nil
+      end
+    end
+    context "given a student with the passed first name in the database" do
+        let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
+        let(:aimee){ Student.new("Aimee", "Knight", test_cohort_1.id) } 
+      before do
+        aimee.save
+        Student.new("Jamie", "Knight", test_cohort_1.id).save
+        Student.new("Jay", "Knight", test_cohort_1.id).save
+        Student.new("Bob", "Knight", test_cohort_1.id).save
+      end
+      it "should return the student with that first_name" do
+        Student.find_by_first_and_last_name("Aimee", "Knight").first_name.should == "Aimee"
+      end
+      it "should return the student with that first_name" do
+        Student.find_by_first_and_last_name("Aimee", "Knight").last_name.should == "Knight"
+      end
+      it "should populate the id" do
+        Student.find_by_first_and_last_name("Aimee", "Knight").id.should == aimee.id
+      end
+    end
+  end
+
   context ".for_cohort" do
     context "with no student in the database" do
       let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }
