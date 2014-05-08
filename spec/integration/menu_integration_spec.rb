@@ -39,7 +39,7 @@ EOS
   context "the user selects 4" do
     let(:shell_output){ run_nss_chronicles_with_input("4") }
     it "should print the next menu" do
-      shell_output.should include("please enter a grouping: <cohort>, <alumni>, <current>, or <all>")
+      shell_output.should include("Please enter a grouping: <cohort>, <alumni>, <current>, <all> or, press enter to return to the main menu")
     end
   end
   context "the user selects 5" do
@@ -51,7 +51,7 @@ EOS
   context "the user selects 6" do
     let(:shell_output){ run_nss_chronicles_with_input("6") }
     it "should print the next menu" do
-      shell_output.should include("please enter a grouping: <cohort>, <student>, or <all>")
+      shell_output.should include("Please enter a grouping: <cohort>, <student>, or <all>")
     end
   end
   context "if the user types in the wrong input" do
