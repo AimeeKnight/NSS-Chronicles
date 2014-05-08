@@ -58,24 +58,35 @@ def add_student
 end
 
 def show_students
-  puts "please enter a grouping: <alumni>, <current>, or <all>"
+  puts "please enter a grouping: <cohort>, <alumni>, <current>, or <all>"
   student_selection = gets
   return unless student_selection
   student_selection.chomp!
-  if student_selection == "alumni"
-    puts "______"
-    puts "ALUMNI"
-    puts "______"
+  case student_selection
+  when "cohort"
+    puts "please enter the cohort id"
+    cohort_id = gets
+    return unless cohort_id
+    cohort_id.chomp!
+    cohort = Cohort.find_by_id(cohort_id)
+    puts "_________________________"
+    puts "#{cohort.title.upcase} STUDENTS".center(25)
+    puts "_________________________"
+    Student.for_cohort(cohort).map { |student| puts "#{student.to_s}" }
+  when "alumni"
+    puts "_________________________"
+    puts "ALUMNI".center(25)
+    puts "_________________________"
     Student.alumni.map { |student| puts "#{student.to_s}" }
-  elsif student_selection == "current"
-    puts "________________"
-    puts "CURRENT STUDENTS"
-    puts "________________"
+  when "current"
+    puts "_________________________"
+    puts "CURRENT STUDENTS".center(25)
+    puts "_________________________"
     Student.current.map { |student| puts "#{student.to_s}" }
   else
-    puts "________"
-    puts "STUDENTS"
-    puts "________"
+    puts "_________________________"
+    puts "STUDENTS".center(25)
+    puts "_________________________"
     Student.all.map { |student| puts "#{student.to_s}"}
   end
 end

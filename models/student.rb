@@ -117,6 +117,14 @@ class Student
     @errors.empty?
   end
 
+  def self.format_boolean(value)
+    if value == 1
+      value = true
+    elsif value == 0
+      value = false
+    end
+  end
+
   private
 
   def self.execute_and_instantiate(statement, bind_vars = [])
@@ -125,6 +133,7 @@ class Student
     rows.each do |row|
       student = Student.new(row["first_name"], row["last_name"], row["cohort_id"], row["alumni"])
       student.instance_variable_set(:@id, row["id"])
+      student.instance_variable_set(:@alumni, format_boolean(row["alumni"]))
       results << student
     end
     results

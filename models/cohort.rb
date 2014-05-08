@@ -39,6 +39,11 @@ class Cohort
     execute_and_instantiate(statement, title)[0]
   end
 
+  def self.find_by_id(id)
+    statement = "Select * from cohorts where id = ?;"
+    execute_and_instantiate(statement, id)[0]
+  end
+
   def self.last
     statement = "Select * from cohorts order by id DESC limit(1)"
     execute_and_instantiate(statement)[0]
