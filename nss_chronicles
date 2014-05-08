@@ -82,6 +82,10 @@ def show_students
       get_menu_selection
     else
       cohort = Cohort.find_by_id(cohort_id.chomp)
+      if cohort.nil?
+        puts "No records found for #{cohort}"
+        return
+      end
       puts "_________________________"
       puts "#{cohort.title.upcase} STUDENTS".center(25)
       puts "_________________________"
@@ -132,6 +136,10 @@ def show_projects
     cohort_id = gets
     return unless cohort_id
     cohort = Cohort.find_by_id(cohort_id.chomp!)
+    if cohort.nil?
+      puts "No records found for #{cohort}"
+      return
+    end
     puts "_________________________"
     puts "#{cohort.title.upcase} PROJECTS".center(25)
     puts "_________________________"
@@ -139,11 +147,15 @@ def show_projects
   when "student"
     puts "please enter the student's first name"
     first = gets
-    return unless  first
+    return unless first
     puts "please enter the student's last name"
     last = gets
-    return unless  last
+    return unless last
     student = Student.find_by_first_and_last_name(first.chomp!, last.chomp!)
+    if student.nil?
+      puts "No records found for #{first.chomp}, #{last.chomp}"
+      return
+    end
     puts "_________________________"
     puts "#{student.first_name.upcase} #{student.last_name.upcase}'S PROJECTS".center(25)
     puts "_________________________"
