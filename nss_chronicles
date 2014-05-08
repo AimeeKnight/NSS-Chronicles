@@ -19,6 +19,7 @@ What do you want to do?
 3. Add Student
 4. Show Students
 5. Add Project
+6. Show Projects
 EOS
 end
 
@@ -106,6 +107,39 @@ def add_project
   end
 end
 
+def show_projects
+  puts "please enter a grouping: <cohort>, <student>, or <all>"
+  project_selection = gets
+  return unless project_selection
+  project_selection.chomp!
+  case project_selection
+  when "cohort"
+    puts "please enter the cohort id"
+    cohort_id = gets
+    return unless cohort_id
+    cohort = Cohort.find_by_id(cohort_id.chomp!)
+    puts "_________________________"
+    puts "#{cohort.title.upcase} PROJECTS".center(25)
+    puts "_________________________"
+    Student.for_project(cohort).map { |project| puts "#{Student.join_to_s(project)}" }
+  when "student"
+    puts "please enter the student id"
+    student_id = gets
+    return unless  student_id
+    student = Student.find_by_id(student_id.chomp!)
+    puts "_________________________"
+    puts "#{student.first_name.upcase} #{student.last_name.upcase}'S PROJECTS".center(25)
+    puts "_________________________"
+    Project.for_student(student).map { |project| puts "#{project.to_s}" }
+  else
+    puts "_________________________"
+    puts "PROJECTS".center(25)
+    puts "_________________________"
+    Project.all.map { |project| puts "#{project.to_s}" }
+  end
+end
+
+#################### MAIN MENU #################### 
 def get_menu_selection
   puts menu
   input = gets
@@ -122,6 +156,8 @@ def get_menu_selection
     show_students
   when "5"
     add_project
+  when "6"
+    show_projects
   else
     puts "'#{input}' is not a valid selection"
     get_menu_selection

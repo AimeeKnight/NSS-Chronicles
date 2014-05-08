@@ -17,6 +17,10 @@ class Student
     "ID: #{@id}, FIRST NAME: #{first_name}, LAST NAME: #{last_name}, COHORT ID: #{cohort_id}, ALUMNI: #{@alumni}"
   end
 
+  def self.join_to_s(result)
+    "TITLE: #{result["title"]}, LANGUAGE: #{result["language"]}, STUDENT NAME: #{result["first_name"]} #{result["last_name"]}"
+  end
+
   def self.all
     statement = "Select * from students;"
     execute_and_instantiate(statement)
@@ -52,7 +56,7 @@ class Student
   end
 
   def self.for_project(cohort)
-    statement = "Select projects.title, students.first_name, students.last_name
+    statement = "Select projects.title, projects.language, students.first_name, students.last_name
                  from projects
                  join students
                    on students.id = projects.student_id

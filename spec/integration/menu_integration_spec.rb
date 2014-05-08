@@ -9,6 +9,7 @@ What do you want to do?
 3. Add Student
 4. Show Students
 5. Add Project
+6. Show Projects
 EOS
   end
   context "the menu displays on startup" do
@@ -45,6 +46,12 @@ EOS
     let(:shell_output){ run_nss_chronicles_with_input("5") }
     it "should print the next menu" do
       shell_output.should include("Please enter the project as: title, primary language, student id, github url, hosted url")
+    end
+  end
+  context "the user selects 6" do
+    let(:shell_output){ run_nss_chronicles_with_input("6") }
+    it "should print the next menu" do
+      shell_output.should include("please enter a grouping: <cohort>, <student>, or <all>")
     end
   end
   context "if the user types in the wrong input" do

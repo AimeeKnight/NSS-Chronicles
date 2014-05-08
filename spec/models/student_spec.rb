@@ -325,4 +325,14 @@ describe Student do
     end
   end
 
+  context ".join_to_s" do
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
+    let(:student) { Student.create("Aimee", "Knight", test_cohort_1.id) }
+    let!(:test_project_1){ Project.create("Test Project 1", "Ruby", student.id, "www.github.com/example", "www.example.com") }
+    let (:result) { Student.for_project(test_cohort_1) }
+    it "converts the returned database rows to strings" do
+      expect(Student.join_to_s(result[0])).to eq "TITLE: #{test_project_1.title}, LANGUAGE: #{test_project_1.language}, STUDENT NAME: #{student.first_name} #{student.last_name}"
+    end
+  end
+
 end
