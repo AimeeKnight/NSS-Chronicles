@@ -16,12 +16,13 @@ require 'project'
 def menu
 <<EOS
 What do you want to do?
-1. Add Cohort
-2. Show Cohorts
-3. Add Student
-4. Show Students
-5. Add Project
-6. Show Projects
+<1> Add Cohort
+<2> Show Cohorts
+<3> Add Student
+<4> Show Students
+<5> Add Project
+<6> Show Projects
+<7> Quit
 EOS
 end
 
@@ -86,10 +87,9 @@ def show_projects
   selection = get_selection
   case selection
   when "cohort"
-    puts "Please enter the cohort id"
-    cohort_id = gets
-    return unless cohort_id
-    cohort = Cohort.find_by_id(cohort_id.chomp!)
+    puts "please enter the cohort id, or press enter to return to the main menu"
+    input = format_input
+    cohort = Cohort.find_by_id(input[0])
     return unless results?(cohort)
     header_to_s("#{cohort.title} projects")
     Student.projects_from_cohort(cohort).map { |project| puts "#{Student.join_to_s(project)}" }
@@ -125,7 +125,7 @@ def get_menu_selection
     add_project
   when "6"
     show_projects
-  when "quit"
+  when "7"
     return
   else
     puts "'#{input}' is not a valid selection"
@@ -182,12 +182,12 @@ def results?(results)
   end
 end
 
-def handle_save(record, input, &try_again)
+def handle_save(record, input)
   if record.save
     puts "#{input[0]} has been added."
   else
     puts record.errors
-    try_again.call
+    yield
   end
 end
 

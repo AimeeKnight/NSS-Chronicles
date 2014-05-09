@@ -4,12 +4,13 @@ describe "Menu Integration" do
   let(:menu_text) do
 <<EOS
 What do you want to do?
-1. Add Cohort
-2. Show Cohorts
-3. Add Student
-4. Show Students
-5. Add Project
-6. Show Projects
+<1> Add Cohort
+<2> Show Cohorts
+<3> Add Student
+<4> Show Students
+<5> Add Project
+<6> Show Projects
+<7> Quit
 EOS
   end
   context "the menu displays on startup" do
