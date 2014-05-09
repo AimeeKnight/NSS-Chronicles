@@ -31,12 +31,7 @@ def add_cohort
   puts "or press enter to return to the main menu"
   input = format_input
   cohort = Cohort.new(input[0], input[1], input[2])
-  if cohort.save
-    puts "#{input[0]} has been added."
-  else
-    puts cohort.errors
-    add_cohort
-  end
+  handle_save(cohort, input) { add_cohort }
 end
 
 def show_cohorts
@@ -50,34 +45,20 @@ def add_student
   puts "or press enter to return to the main menu"
   input = format_input
   student = Student.new(input[0], input[1], input[2])
-  if student.save
-    puts "#{input[0]} has been added."
-  else
-    puts student.errors
-    add_student
-  end
+  handle_save(student, input) { add_student }
 end
 
 def show_students
   puts "Please enter a grouping: <cohort>, <alumni>, <current>, <all> or, press enter to return to the main menu"
-  student_selection = gets
-  return unless student_selection
-  case student_selection.chomp!
+  selection = get_selection
+  case selection
   when "cohort"
     puts "please enter the cohort id, or press enter to return to the main menu"
-    cohort_id = gets
-    return unless cohort_id
-    if cohort_id.chomp! == ""
-      get_menu_selection
-    else
-      cohort = Cohort.find_by_id(cohort_id.chomp)
-      if cohort.nil?
-        puts "No records found for #{cohort}"
-        return
-      end
-      header_to_s("#{cohort.title} students")
-      Student.for_cohort(cohort).map { |student| puts "#{student.to_s}" }
-    end
+    input = format_input
+    cohort = Cohort.find_by_id(input[0])
+    return unless results?(cohort)
+    header_to_s("#{cohort.title} students")
+    Student.for_cohort(cohort).map { |student| puts "#{student.to_s}" }
   when "alumni"
     header_to_s("alumni")
     Student.alumni.map { |student| puts "#{student.to_s}" }
@@ -97,47 +78,32 @@ def add_project
   puts "Please enter the project as: title, primary language, student id, github url, hosted url"
   input = format_input
   project = Project.new(input[0], input[1], input[2], input[3], input[4])
-  if project.save
-    puts "#{input[0]} has been added."
-  else
-    puts project.errors
-    add_project
-  end
+  handle_save(project, input) { add_project }
 end
 
 def show_projects
   puts "Please enter a grouping: <cohort>, <student>, or <all>"
-  project_selection = gets
-  return unless project_selection
-  case project_selection.chomp!
+  selection = get_selection
+  case selection
   when "cohort"
     puts "Please enter the cohort id"
     cohort_id = gets
     return unless cohort_id
     cohort = Cohort.find_by_id(cohort_id.chomp!)
-    if cohort.nil?
-      puts "No records found for #{cohort}"
-      return
-    end
+    return unless results?(cohort)
     header_to_s("#{cohort.title} projects")
     Student.projects_from_cohort(cohort).map { |project| puts "#{Student.join_to_s(project)}" }
   when "student"
-    puts "please enter the student's first name"
-    first = gets
-    return unless first
-    puts "please enter the student's last name"
-    last = gets
-    return unless last
-    student = Student.find_by_first_and_last_name(first.capitalize.chomp!, last.capitalize.chomp!)
-    if student.nil?
-      puts "No records found for #{first.chomp}, #{last.chomp}"
-      return
-    end
+    name = get_full_name
+    student = Student.find_by_first_and_last_name(name[0].capitalize.chomp!, name[1].capitalize.chomp!)
+    return unless results?(student)
     header_to_s("#{student.first_name} #{student.last_name}'s projects")
     Project.for_student(student).map { |project| puts "#{project.to_s}" }
-  else
+  when "all"
     header_to_s("projects")
     Project.all.map { |project| puts "#{project.to_s}" }
+  else
+    get_menu_selection
   end
 end
 
@@ -159,6 +125,8 @@ def get_menu_selection
     add_project
   when "6"
     show_projects
+  when "quit"
+    return
   else
     puts "'#{input}' is not a valid selection"
     get_menu_selection
@@ -173,11 +141,53 @@ end
 
 def format_input
   user_input = gets
-  return unless user_input
-  if user_input.chomp! == ""
+  if user_input.nil?
+    get_menu_selection
+  elsif user_input.chomp! == ""
     get_menu_selection
   else
     user_input = user_input.chomp.split(",").map(&:strip)
+  end
+end
+
+def get_selection
+  selection = gets
+  if selection.nil?
+    selection = "invalid"
+  elsif
+    selection.chomp == ""
+    selection = "invalid"
+  else
+    selection = selection.chomp!
+  end
+  selection
+end
+
+def get_full_name
+  full_name = []
+  puts "please enter the student's first name"
+  first = gets
+  full_name << first
+  puts "please enter the student's last name"
+  last = gets
+  full_name << last
+end
+
+def results?(results)
+  if results.nil?
+    puts "No records found"
+    false
+  else
+    true
+  end
+end
+
+def handle_save(record, input, &try_again)
+  if record.save
+    puts "#{input[0]} has been added."
+  else
+    puts record.errors
+    try_again.call
   end
 end
 

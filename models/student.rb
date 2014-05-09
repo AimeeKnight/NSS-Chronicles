@@ -56,7 +56,7 @@ class Student
   end
 
   def self.projects_from_cohort(cohort)
-    statement = "Select projects.title, projects.language, students.first_name, students.last_name
+    statement = "Select DISTINCT projects.title, projects.language, students.first_name, students.last_name
                  from projects
                  join students
                    on students.id = projects.student_id
