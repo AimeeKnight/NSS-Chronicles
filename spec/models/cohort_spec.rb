@@ -129,6 +129,29 @@ describe Cohort do
     end
   end
 
+  context "#delete" do
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
+    context "with only one cohort in the database" do
+      before do
+        test_cohort_1.destroy
+      end
+      it "should delete the cohort from the database" do
+        Cohort.count.should == 0
+      end
+    end
+    context "with multiple cohorts in the database" do
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
+    let!(:test_cohort_2){ Cohort.create("Test Cohort 2", "JS/Ruby", "Summer 14") }
+    let!(:test_cohort_3){ Cohort.create("Test Cohort 3", "JS/Ruby", "Summer 14") }
+      before do
+        test_cohort_1.destroy
+      end
+      it "should only delete one cohort from the database" do
+        Cohort.count.should == 2
+      end
+    end
+  end
+
   context "#students" do
     let(:cohort){ Cohort.create("Test Cohort Foo", "JS/Ruby", "Spring 14") }
     context "delegate to models" do

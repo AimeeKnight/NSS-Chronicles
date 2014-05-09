@@ -97,6 +97,11 @@ class Student
     @alumni = true
   end
 
+  def destroy
+    statement = "Delete from students where id = ?"
+    Environment.database_connection.execute(statement, self.id)
+  end
+
   def projects
     Project.for_student(self)
   end

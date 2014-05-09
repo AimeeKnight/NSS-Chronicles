@@ -170,6 +170,31 @@ describe Project do
     end
   end
 
+  context "#delete" do
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
+    let(:aimee){ Student.create("Aimee", "Knight", test_cohort_1.id) }
+    let!(:test_project_1){ Project.create("Test Project 1", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
+    context "with only one project in the database" do
+      before do
+        test_project_1.destroy
+      end
+      it "should delete the project from the database" do
+        Project.count.should == 0
+      end
+    end
+    context "with multiple projects in the database" do
+      let!(:test_project_1){ Project.create("Test Project 1", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
+      let!(:test_project_2){ Project.create("Test Project 2", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
+      let!(:test_project_3){ Project.create("Test Project 3", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
+      before do
+        test_project_1.destroy
+      end
+      it "should only delete one project from the database" do
+        Project.count.should == 2
+      end
+    end
+  end
+
   context "#save" do
     let(:result){ Environment.database_connection.execute("Select title from projects") }
     let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Spring 14") }

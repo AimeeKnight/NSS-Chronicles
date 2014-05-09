@@ -49,6 +49,11 @@ class Cohort
     execute_and_instantiate(statement)[0]
   end
 
+  def destroy
+    statement = "Delete from cohorts where id = ?"
+    Environment.database_connection.execute(statement, self.id)
+  end
+
   def students
     Student.for_cohort(self)
   end

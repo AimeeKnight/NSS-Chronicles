@@ -53,6 +53,11 @@ class Project
     execute_and_instantiate(statement)[0]
   end
 
+  def destroy
+    statement = "Delete from projects where id = ?"
+    Environment.database_connection.execute(statement, self.id)
+  end
+
   def save
     if valid?
       statement = "Insert into projects (title, language, student_id, github_url, hosted_url) values (?, ?, ?, ?, ?);"

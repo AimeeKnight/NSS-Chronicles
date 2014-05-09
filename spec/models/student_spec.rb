@@ -263,6 +263,30 @@ describe Student do
     end
   end
 
+  context "#delete" do
+    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
+    context "with only one student in the database" do
+      let(:student){ Student.create("Aimee", "Knight", test_cohort_1.id) }
+      before do
+        student.destroy
+      end
+      it "should delete the student from the database" do
+        Student.count.should == 0
+      end
+    end
+    context "with multiple students in the database" do
+      let(:aimee){ Student.create("Aimee", "Knight", test_cohort_1.id) }
+      let!(:jamie){ Student.create("Jamie", "Knight", test_cohort_1.id) }
+      let!(:jay){ Student.create("Jay", "Knight", test_cohort_1.id) }
+      before do
+        aimee.destroy
+      end
+      it "should only delete one student from the database" do
+        Student.count.should == 2
+      end
+    end
+  end
+
   context "#projects" do
     let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
     let(:student){ Student.create("Aimee", "Knight", test_cohort_1.id) }
