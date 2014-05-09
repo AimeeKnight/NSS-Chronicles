@@ -24,6 +24,8 @@ def run_nss_chronicles_with_input(*inputs)
 end
 
 RSpec.configure do |config|
+  config.color_enabled = true
+
   config.after(:each) do
     Environment.database_connection.execute("DELETE FROM cohorts;")
     Environment.database_connection.execute("DELETE FROM students;")
