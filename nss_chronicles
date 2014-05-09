@@ -46,9 +46,7 @@ def add_cohort
 end
 
 def show_cohorts
-  puts "_________________________"
-  puts "COHORTS"
-  puts "_________________________"
+  header_to_s("cohorts")
   Cohort.all.map { |cohort| puts "#{cohort.to_s}"}
 end
 
@@ -76,8 +74,7 @@ def show_students
   puts "Please enter a grouping: <cohort>, <alumni>, <current>, <all> or, press enter to return to the main menu"
   student_selection = gets
   return unless student_selection
-  student_selection.chomp!
-  case student_selection
+  case student_selection.chomp!
   when "cohort"
     puts "please enter the cohort id, or press enter to return to the main menu"
     cohort_id = gets
@@ -90,28 +87,20 @@ def show_students
         puts "No records found for #{cohort}"
         return
       end
-      puts "_________________________"
-      puts "#{cohort.title.upcase} STUDENTS".center(25)
-      puts "_________________________"
+      header_to_s("#{cohort.title} students")
       Student.for_cohort(cohort).map { |student| puts "#{student.to_s}" }
     end
   when "alumni"
-    puts "_________________________"
-    puts "ALUMNI".center(25)
-    puts "_________________________"
+    header_to_s("alumni")
     Student.alumni.map { |student| puts "#{student.to_s}" }
   when "current"
-    puts "_________________________"
-    puts "CURRENT STUDENTS".center(25)
-    puts "_________________________"
+    header_to_s("current students")
     Student.current.map { |student| puts "#{student.to_s}" }
   when "all"
-    puts "_________________________"
-    puts "STUDENTS".center(25)
-    puts "_________________________"
+    header_to_s("students")
     Student.all.map { |student| puts "#{student.to_s}"}
   else
-    get_menu_selction
+    get_menu_selection
   end
 end
 
