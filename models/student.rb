@@ -7,9 +7,9 @@ class Student
                 :alumni
 
   def initialize (first_name, last_name, cohort_id, alumni = false)
-    @first_name = first_name
-    @last_name = last_name
-    @cohort_id = cohort_id
+    self.first_name = first_name
+    self.last_name = last_name
+    self.cohort_id = cohort_id
     @alumni = alumni
   end
 

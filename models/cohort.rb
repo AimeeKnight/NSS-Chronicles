@@ -8,9 +8,9 @@ class Cohort
                 :term
 
   def initialize (title, languages, term)
-    @title = title
-    @languages = languages
-    @term = term
+    self.title = title
+    self.languages = languages
+    self.term = term
   end
 
   def to_s

@@ -8,11 +8,11 @@ class Project
                 :hosted_url
 
   def initialize(title, language, student_id, github_url, hosted_url)
-    @title = title
-    @language = language
-    @student_id = student_id
-    @github_url = github_url
-    @hosted_url = hosted_url
+    self.title = title
+    self.language = language
+    self.student_id = student_id
+    self.github_url = github_url
+    self.hosted_url = hosted_url
   end
 
   def to_s
