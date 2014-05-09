@@ -29,19 +29,13 @@ end
 def add_cohort
   puts "Please enter the cohort as: title, language 1/language 2, term"
   puts "or press enter to return to the main menu"
-  cohort_input = gets
-  return unless cohort_input
-  if cohort_input.chomp! == ""
-    get_menu_selection
+  input = format_input
+  cohort = Cohort.new(input[0], input[1], input[2])
+  if cohort.save
+    puts "#{input[0]} has been added."
   else
-    cohort_input = cohort_input.chomp.split(",").map(&:strip)
-    cohort = Cohort.new(cohort_input[0], cohort_input[1], cohort_input[2])
-    if cohort.save
-      puts "#{cohort_input[0]} has been added."
-    else
-      puts cohort.errors
-      add_cohort
-    end
+    puts cohort.errors
+    add_cohort
   end
 end
 
@@ -54,16 +48,10 @@ end
 def add_student
   puts "Please enter the student as first name, last name, cohort id"
   puts "or press enter to return to the main menu"
-  student_input = gets
-  return unless student_input
-  if student_input.chomp! == ""
-    get_menu_selection
-  else
-    student_input = student_input.chomp.split(",").map(&:strip)
-    student = Student.new(student_input[0], student_input[1], student_input[2])
-  end
+  input = format_input
+  student = Student.new(input[0], input[1], input[2])
   if student.save
-    puts "#{student_input[0]} has been added."
+    puts "#{input[0]} has been added."
   else
     puts student.errors
     add_student
@@ -107,12 +95,10 @@ end
 #################### PROJECT ####################
 def add_project
   puts "Please enter the project as: title, primary language, student id, github url, hosted url"
-  project_input = gets
-  return unless project_input
-  project_input = project_input.chomp.split(",").map(&:strip)
-  project = Project.new(project_input[0], project_input[1], project_input[2], project_input[3], project_input[4])
+  input = format_input
+  project = Project.new(input[0], input[1], input[2], input[3], input[4])
   if project.save
-    puts "#{project_input[0]} has been added."
+    puts "#{input[0]} has been added."
   else
     puts project.errors
     add_project
@@ -183,6 +169,16 @@ def header_to_s(title)
   puts "_________________________"
   puts "#{title.upcase}".center(25)
   puts "_________________________"
+end
+
+def format_input
+  user_input = gets
+  return unless user_input
+  if user_input.chomp! == ""
+    get_menu_selection
+  else
+    user_input = user_input.chomp.split(",").map(&:strip)
+  end
 end
 
 get_menu_selection
