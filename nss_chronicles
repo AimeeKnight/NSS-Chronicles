@@ -8,10 +8,10 @@ require 'environment'
 Environment.environment = ENV["ENVIRONMENT"] || "production"
 $stderr = $stdout
 
-require 'cohort'
-require 'cohorts'
-require 'student'
-require 'project'
+#require 'cohort'
+#require 'cohorts'
+#require 'student'
+#require 'project'
 
 def menu
 <<EOS

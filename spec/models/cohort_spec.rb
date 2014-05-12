@@ -8,10 +8,10 @@ describe Cohort do
       end
     end
     context "with multiple entries in the database" do
-      let(:test_cohort_1){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
-      let(:test_cohort_2){ Cohort.new("Test Cohort 2", "JS/Ruby", "Spring 14") }
-      let(:test_cohort_3){ Cohort.new("Test Cohort 3", "JS/Ruby", "Spring 14") }
-      let(:test_cohort_4){ Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14") }
+      let(:test_cohort_1){ Cohort.new({ title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14" }) }
+      let(:test_cohort_2){ Cohort.new({ title: "Test Cohort 2", languages: "JS/Ruby", term: "Spring 14" }) }
+      let(:test_cohort_3){ Cohort.new({ title: "Test Cohort 3", languages: "JS/Ruby", term: "Spring 14" }) }
+      let(:test_cohort_4){ Cohort.new({ title: "Test Cohort 4", languages: "JS/Ruby", term: "Spring 14" }) }
       before do
         test_cohort_1.save
         test_cohort_2.save
@@ -36,10 +36,10 @@ describe Cohort do
     end
     context "with multiple cohorts in the database" do
       before do
-        Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
-        Cohort.new("Test Cohort 2", "JS/Ruby", "Spring 14").save
-        Cohort.new("Test Cohort 3", "JS/Ruby", "Spring 14").save
-        Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14").save
+        Cohort.new({ title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14" }).save
+        Cohort.new({ title: "Test Cohort 2", languages: "JS/Ruby", term: "Spring 14" }).save
+        Cohort.new({ title: "Test Cohort 3", languages: "JS/Ruby", term: "Spring 14" }).save
+        Cohort.new({ title: "Test Cohort 4", languages: "JS/Ruby", term: "Spring 14" }).save
       end
       it "should return the correct count" do
         Cohort.count.should == 4
@@ -54,12 +54,12 @@ describe Cohort do
       end
     end
     context "given a cohort with the passed title in the database" do
-      let(:test_cohort_1){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let(:test_cohort_1){ Cohort.new({ title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14" }) }
       before do
         test_cohort_1.save
-        Cohort.new("Test Cohort 2", "JS/Ruby", "Spring 14").save
-        Cohort.new("Test Cohort 3", "JS/Ruby", "Spring 14").save
-        Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14").save
+        Cohort.new({ title: "Test Cohort 2", languages: "JS/Ruby", term: "Spring 14" }).save
+        Cohort.new({ title: "Test Cohort 3", languages: "JS/Ruby", term: "Spring 14" }).save
+        Cohort.new({ title: "Test Cohort 4", languages: "JS/Ruby", term: "Spring 14" }).save
       end
       it "should return the cohort with that title" do
         Cohort.find_by_title("Test Cohort 1").title.should == "Test Cohort 1"
@@ -77,11 +77,11 @@ describe Cohort do
       end
     end
     context "with multiple cohorts in the database" do
-      let(:test_cohort_4){ Cohort.new("Test Cohort 4", "JS/Ruby", "Spring 14") }
+      let(:test_cohort_4){ Cohort.new({ title: "Test Cohort 4", languages: "JS/Ruby", term: "Spring 14" }) }
       before do
-        Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
-        Cohort.new("Test Cohort 2", "JS/Ruby", "Spring 14").save
-        Cohort.new("Test Cohort 3", "JS/Ruby", "Spring 14").save
+        Cohort.new({ title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14" }).save
+        Cohort.new({ title: "Test Cohort 2", languages: "JS/Ruby", term: "Spring 14" }).save
+        Cohort.new({ title: "Test Cohort 3", languages: "JS/Ruby", term: "Spring 14" }).save
         test_cohort_4.save
       end
       it "should return the last cohort inserted" do
@@ -94,15 +94,15 @@ describe Cohort do
   end
 
   context "#new" do
-    let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
+    let(:cohort){ Cohort.new({ title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14" }) }
     it "should store the title" do
       cohort.title.should == "Test Cohort 1"
     end
   end
 
   context "#create" do
-    let(:result){ Environment.database_connection.execute("Select * from cohorts") }
-    let(:cohort){ Cohort.create("Test Cohort Foo", "JS/Ruby", "Spring 14") }
+    let(:result){ Cohort.connection.execute("Select * from cohorts") }
+    let(:cohort){ Cohort.create({ title: "Test Cohort Foo", languages: "JS/Ruby", term: "Spring 14" }) }
     context "with a valid cohort" do
       before do
        Cohort.any_instance.stub(:valid?){ true }
@@ -130,7 +130,7 @@ describe Cohort do
   end
 
   context "#delete" do
-    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
+    let(:test_cohort_1){ Cohort.create({ title: "Test Cohort 1", languages: "JS/Ruby", term: "Summer 14" }) }
     context "with only one cohort in the database" do
       before do
         test_cohort_1.destroy
@@ -140,9 +140,9 @@ describe Cohort do
       end
     end
     context "with multiple cohorts in the database" do
-    let(:test_cohort_1){ Cohort.create("Test Cohort 1", "JS/Ruby", "Summer 14") }
-    let!(:test_cohort_2){ Cohort.create("Test Cohort 2", "JS/Ruby", "Summer 14") }
-    let!(:test_cohort_3){ Cohort.create("Test Cohort 3", "JS/Ruby", "Summer 14") }
+    let(:test_cohort_1){ Cohort.create({ title: "Test Cohort 1", languages: "JS/Ruby", term: "Summer 14" }) }
+    let!(:test_cohort_2){ Cohort.create({ title: "Test Cohort 2", languages: "JS/Ruby", term: "Summer 14" }) }
+    let!(:test_cohort_3){ Cohort.create({ title: "Test Cohort 3", languages: "JS/Ruby", term: "Summer 14" }) }
       before do
         test_cohort_1.destroy
       end
@@ -153,7 +153,7 @@ describe Cohort do
   end
 
   context "#students" do
-    let(:cohort){ Cohort.create("Test Cohort Foo", "JS/Ruby", "Spring 14") }
+    let(:cohort){ Cohort.create({ title: "Test Cohort Foo", languages: "JS/Ruby", term: "Spring 14" }) }
     context "delegate to models" do
       it "should delegate to the Student" do
         expect(Student).to receive(:for_cohort)
@@ -163,7 +163,7 @@ describe Cohort do
   end
 
   context "#projects" do
-    let(:cohort){ Cohort.create("Test Cohort Foo", "JS/Ruby", "Spring 14") }
+    let(:cohort){ Cohort.create({ title: "Test Cohort Foo", languages: "JS/Ruby", term: "Spring 14" }) }
     context "delegate to models" do
       it "should delegate to the Student" do
         expect(Student).to receive(:for_project)
@@ -173,8 +173,8 @@ describe Cohort do
   end
 
   context "#save" do
-    let(:result){ Environment.database_connection.execute("Select * from cohorts") }
-    let(:cohort){ Cohort.new("Test Cohort Foo", "JS/Ruby", "Spring 14") }
+    let(:result){ Cohort.connection.execute("Select * from cohorts") }
+    let(:cohort){ Cohort.create({ title: "Test Cohort Foo", languages: "JS/Ruby", term: "Spring 14" }) }
     context "with a valid cohort" do
       before do
         cohort.stub(:valid?) { true }
@@ -194,7 +194,8 @@ describe Cohort do
     end
     context "with an invalid cohort" do
       before do
-        cohort.stub(:valid?) { false }
+        Cohort.any_instance.stub(:valid?){ false }
+        cohort
       end
       it "should not save a new cohort to the database" do
         cohort.save
@@ -206,7 +207,7 @@ describe Cohort do
   context "#valid?" do
     let(:result){ Environment.database_connection.execute("Select title from cohorts") }
     context "after fixing the errors" do
-      let(:cohort){ Cohort.new("123", "JS/Ruby", "Spring 14") }
+      let(:cohort){ Cohort.create({ title: "123", languages: "JS/Ruby", term: "Spring 14" }) }
       it "should return true" do
         cohort.valid?.should be_false
         cohort.title = "Test Cohort Bar"
@@ -214,38 +215,38 @@ describe Cohort do
       end
     end
     context "with a unique title" do
-      let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let(:cohort){ Cohort.create({ title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14" }) }
       it "should return true" do
         cohort.valid?.should be_true
       end
     end
     context "with an invalid title" do
-      let(:cohort){ Cohort.new("123", "JS/Ruby", "Spring 14") }
+      let(:cohort){ Cohort.create({ title: "123", languages: "JS/Ruby", term: "Spring 14" }) }
       it "should return false" do
         cohort.valid?.should be_false
       end
       it "should save the error messages" do
         cohort.valid?
-        cohort.errors.first.should == "'123' is not a valid cohort title, as it does not include any letters."
+        cohort.errors[:title].first.should == "is not a valid cohort title, as it does not include any letters."
       end
     end
     context "with a duplicate title" do
-      let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
+      let(:cohort){ Cohort.create({ title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14" }) }
       before do
-        Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14").save
+        Cohort.new({ title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14" }).save
       end
       it "should return false" do
         cohort.valid?.should be_false
       end
       it "should save the error messages" do
         cohort.valid?
-        cohort.errors.first.should == "Test Cohort 1 already exists."
+        cohort.errors[:title].first.should == "already exists."
       end
     end
   end
 
   context "#to_s" do
-    let(:cohort){ Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14") }
+    let(:cohort){ Cohort.new({ title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14" }) }
     it "converts to a string with properties" do
       expect(cohort.to_s).to eq "ID: #{cohort.id}, TITLE: Test Cohort 1, LANGUAGES: JS/Ruby, TERM: Spring 14"
     end

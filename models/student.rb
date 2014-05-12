@@ -1,4 +1,4 @@
-class Student
+class Student < ActiveRecord::Base
   attr_reader :errors,
               :id
   attr_accessor :first_name,

@@ -1,4 +1,4 @@
-class Project
+class Project < ActiveRecord::Base
   attr_reader :errors,
               :id
   attr_accessor :title,
