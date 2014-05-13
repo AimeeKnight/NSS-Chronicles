@@ -31,8 +31,12 @@ def add_cohort
   puts "Please enter the cohort as: title, language 1/language 2, term"
   puts "or press enter to return to the main menu"
   input = format_input
-  cohort = Cohort.new(input[0], input[1], input[2])
-  handle_save(cohort, input) { add_cohort }
+  if input.nil?
+    add_cohort
+  else
+    cohort = Cohort.new(title: input[0], languages: input[1], term: input[2])
+    handle_save(cohort, input, :title) { add_cohort }
+  end
 end
 
 def show_cohorts
@@ -45,8 +49,12 @@ def add_student
   puts "Please enter the student as first name, last name, cohort id"
   puts "or press enter to return to the main menu"
   input = format_input
-  student = Student.new(input[0], input[1], input[2])
-  handle_save(student, input) { add_student }
+  if input.nil?
+    add_student
+  else
+    student = Student.new(first_name: input[0], last_name: input[1], cohort_id: input[2])
+    handle_save(student, input, :first_name) { add_student }
+  end
 end
 
 def show_students
@@ -78,8 +86,12 @@ end
 def add_project
   puts "Please enter the project as: title, primary language, student id, github url, hosted url"
   input = format_input
-  project = Project.new(input[0], input[1], input[2], input[3], input[4])
-  handle_save(project, input) { add_project }
+  if input.nil?
+    add_project
+  else
+    project = Project.new(title: input[0], language: input[1], student_id: input[2], github_url: input[3], hosted_url: input[4])
+    handle_save(project, input, :title) { add_project }
+  end
 end
 
 def show_projects
@@ -182,11 +194,11 @@ def results?(results)
   end
 end
 
-def handle_save(record, input)
+def handle_save(record, input, attribute)
   if record.save
     puts "#{input[0]} has been added."
   else
-    puts record.errors
+    puts record.errors[attribute]
     yield
   end
 end

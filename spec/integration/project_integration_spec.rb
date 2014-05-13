@@ -2,7 +2,7 @@ require_relative '../spec_helper'
 
 describe "Adding a project" do
   before do
-    project = Project.new(title: "Test Project 1", languages: "Ruby", student_id: 1, github_url: "www.github.com/example", hosted_url: "www.example.com")
+    project = Project.new(title: "Test Project 1", language: "Ruby", student_id: 1, github_url: "www.github.com/example", hosted_url: "www.example.com")
     project.save
   end
   context "adding a unique project" do
@@ -21,7 +21,7 @@ describe "Adding a project" do
   context "adding a duplicate project" do
     let(:output){ run_nss_chronicles_with_input("5", "Test Project 1, Ruby, 1, www.github.com/example, www.example.com") }
     it "should print an error message" do
-      output.should include("Test Project 1 already exists.")
+      output.should include("already exists.")
     end
     it "should ask them to try again" do
       menu_text = "Please enter the project as: title, primary language, student id, github url, hosted url"
@@ -60,7 +60,7 @@ describe "Adding a project" do
         Project.count.should == 1
       end
       it "should print an error message" do
-        output.should include("'4*25' is not a valid project title, as it does not include any letters.")
+        output.should include("is not a valid project title, as it does not include any letters.")
       end
       it "should let them try again" do
         menu_text = "Please enter the project as: title, primary language, student id, github url, hosted url"

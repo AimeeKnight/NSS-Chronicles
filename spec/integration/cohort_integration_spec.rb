@@ -21,7 +21,7 @@ describe "Adding a cohort" do
   context "adding a duplicate cohort" do
     let(:output){ run_nss_chronicles_with_input("1", "Test Cohort 1, JS/Ruby, Spring 14") }
     it "should print an error message" do
-      output.should include("Test Cohort 1 already exists.")
+      output.should include("already exists.")
     end
     it "should ask them to try again" do
       menu_text = "Please enter the cohort as: title, language 1/language 2, term"
@@ -60,7 +60,7 @@ describe "Adding a cohort" do
         Cohort.count.should == 1
       end
       it "should print an error message" do
-        output.should include("'4*25' is not a valid cohort title, as it does not include any letters.")
+        output.should include("is not a valid cohort title, as it does not include any letters.")
       end
       it "should let them try again" do
         menu_text = "Please enter the cohort as: title, language 1/language 2, term"

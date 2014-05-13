@@ -87,10 +87,6 @@ class Student < ActiveRecord::Base
   #  execute_and_instantiate(statement)[0]
   #end
 
-  def alumni?
-    self.alumni
-  end
-
   def make_alumni
     self.alumni = true
     self.save!

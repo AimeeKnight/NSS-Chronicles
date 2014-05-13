@@ -49,10 +49,10 @@ describe Student do
       end
       it "should return only the students who are alumni" do
         #####################
-        Student.alumni[0][:alumni].should == true
+        Student.alumni[0].alumni.should == true
       end
       it "should return the last student as an alumni" do
-        Student.alumni.last[:alumni].should == true
+        Student.alumni.last.alumni.should == true
       end
     end
   end

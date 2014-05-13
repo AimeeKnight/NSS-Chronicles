@@ -21,7 +21,7 @@ describe "Adding a student" do
   context "adding a duplicate student" do
     let(:output){ run_nss_chronicles_with_input("3", "Aimee, Knight, 4") }
     it "should print an error message" do
-      output.should include("Aimee already exists.")
+      output.should include("already exists.")
     end
     it "should ask them to try again" do
       menu_text = "Please enter the student as first name, last name, cohort id"
@@ -60,7 +60,7 @@ describe "Adding a student" do
         Student.count.should == 1
       end
       it "should print an error message" do
-        output.should include("'4*25' is not a valid student first name, as it does not include any letters.")
+        output.should include("is not a valid student first name, as it does not include any letters.")
       end
       it "should let them try again" do
         menu_text = "Please enter the student as first name, last name, cohort id"
