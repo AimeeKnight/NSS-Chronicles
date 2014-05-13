@@ -152,26 +152,6 @@ describe Cohort do
     end
   end
 
-  context "#students" do
-    let(:cohort){ Cohort.create({ title: "Test Cohort Foo", languages: "JS/Ruby", term: "Spring 14" }) }
-    context "delegate to models" do
-      it "should delegate to the Student" do
-        expect(Student).to receive(:for_cohort)
-        cohort.students
-      end
-    end
-  end
-
-  context "#projects" do
-    let(:cohort){ Cohort.create({ title: "Test Cohort Foo", languages: "JS/Ruby", term: "Spring 14" }) }
-    context "delegate to models" do
-      it "should delegate to the Student" do
-        expect(Student).to receive(:for_project)
-        cohort.projects
-      end
-    end
-  end
-
   context "#save" do
     let(:result){ Cohort.connection.execute("Select * from cohorts") }
     let(:cohort){ Cohort.create({ title: "Test Cohort Foo", languages: "JS/Ruby", term: "Spring 14" }) }

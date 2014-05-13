@@ -48,7 +48,6 @@ describe Student do
         Student.alumni.length.should == 2
       end
       it "should return only the students who are alumni" do
-        #####################
         Student.alumni[0].alumni.should == true
       end
       it "should return the last student as an alumni" do
@@ -132,7 +131,7 @@ describe Student do
     context "with no student in the database" do
       let(:test_cohort_1){ Cohort.create(title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14") }
       it "should not return any students" do
-        Student.for_cohort(test_cohort_1)[0].should == nil
+        test_cohort_1.students[0].should == nil
       end
     end
     context "with multiple students in the database" do
@@ -142,36 +141,36 @@ describe Student do
       let!(:jamie){ Student.create(first_name: "Jamie", last_name: "Knight", cohort_id: test_cohort_1.id) }
       let!(:jay){ Student.create(first_name: "Jay", last_name: "Knight", cohort_id: test_cohort_1.id) }
       let!(:bob){ Student.create(first_name: "Bob", last_name: "Knight", cohort_id: test_cohort_2.id) }
-      it "should return 4 students" do
-        Student.for_cohort(test_cohort_1).length.should == 3
+      it "should return 3 students" do
+        test_cohort_1.students.length.should == 3
       end
       it "the should return students from the cohort that was passed in" do
-        Student.for_cohort(test_cohort_1)[0]["cohort_id"].should == test_cohort_1.id
+        test_cohort_1.students[0].first_name.should == "Aimee"
       end
     end
   end
 
-  #context ".projects_from_cohort" do
-  #  context "with multiple project in the database" do
-  #    let(:test_cohort_1){ Cohort.create(title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14") }
-  #    let(:aimee){ Student.create(first_name: "Aimee", last_name: "Knight", cohort_id: test_cohort_1.id) }
-  #    let!(:test_project_1){ Project.create("Test Project 1", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
-  #    let!(:test_project_2){ Project.create("Test Project 2", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
-  #    let!(:test_project_3){ Project.create("Test Project 3", "Ruby", aimee.id, "www.github.com/example", "www.example.com") }
-  #    it "should return 3 projects" do
-  #      Student.projects_from_cohort(test_cohort_1).length.should == 3
-  #    end
-  #    it "should the first name for a student who worked on a project in the cohort" do
-  #      Student.projects_from_cohort(test_cohort_1)[0]["first_name"].should == aimee.first_name
-  #    end
-  #    it "should the last name for a student who worked on a project in the cohort" do
-  #      Student.projects_from_cohort(test_cohort_1)[0]["last_name"].should == aimee.last_name
-  #    end
-  #    it "should return a title for the projects in the cohort" do
-  #      Student.projects_from_cohort(test_cohort_1)[0]["title"].should == test_project_1.title
-  #    end
-  #  end
-  #end
+  context ".projects_from_cohort" do
+    context "with multiple project in the database" do
+      let(:test_cohort_1){ Cohort.create(title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14") }
+      let(:aimee){ Student.create(first_name: "Aimee", last_name: "Knight", cohort_id: test_cohort_1.id) }
+      let!(:test_project_1){ Project.create(title: "Test Project 1", language: "Ruby", student_id: aimee.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
+      let!(:test_project_2){ Project.create(title: "Test Project 2", language: "Ruby", student_id: aimee.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
+      let!(:test_project_3){ Project.create(title: "Test Project 3", language: "Ruby", student_id: aimee.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
+      it "should return 3 projects" do
+        test_cohort_1.projects.length.should == 3
+      end
+      it "should return the first name for a student who worked on a project in the cohort" do
+        test_cohort_1.projects[0].student.first_name.should == aimee.first_name
+      end
+      it "should the last name for a student who worked on a project in the cohort" do
+        test_cohort_1.projects[0].student.last_name.should == aimee.last_name
+      end
+      it "should return a title for the projects in the cohort" do
+        test_cohort_1.projects[0].title.should == "Test Project 1"
+      end
+    end
+  end
 
   context ".last" do
     context "with no students in the database" do
@@ -288,17 +287,6 @@ describe Student do
     end
   end
 
-  context "#projects" do
-    let(:test_cohort_1){ Cohort.create(title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14") }
-    let(:student){ Student.create(first_name: "Aimee", last_name: "Knight", cohort_id: test_cohort_1.id) }
-    context "delegate to projects" do
-      it "should delegate to the Project" do
-        expect(Project).to receive(:for_student)
-        student.projects
-      end
-    end
-  end
-
   context "#save" do
     let(:result){ Student.connection.execute("Select first_name from students") }
     let(:test_cohort_2){ Cohort.create(title: "Test Cohort 2", languages: "JS/Ruby", term: "Spring 14") }
@@ -376,15 +364,5 @@ describe Student do
       expect(student.to_s).to eq "ID: #{student.id}, FIRST NAME: Aimee, LAST NAME: Knight, COHORT ID: #{test_cohort_2.id}, ALUMNI: false"
     end
   end
-
-  #context ".join_to_s" do
-  #  let(:test_cohort_1){ Cohort.create(title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14" ) }
-  #  let(:student) { Student.create(first_name: "Aimee", last_name: "Knight", cohort_id: test_cohort_1.id ) }
-  #  let!(:test_project_1){ Project.create("Test Project 1", "Ruby", student.id, "www.github.com/example", "www.example.com") }
-  #  let (:result) { Student.projects_from_cohort(test_cohort_1) }
-  #  it "converts the returned database rows to strings" do
-  #    expect(Student.join_to_s(result[0])).to eq "TITLE: #{test_project_1.title}, LANGUAGE: #{test_project_1.language}, STUDENT NAME: #{student.first_name} #{student.last_name}"
-  #  end
-  #end
 
 end

@@ -83,8 +83,9 @@ describe Project do
     context "without projects in the database" do
       let(:test_cohort_1){ Cohort.create(title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14") }
       let(:aimee){ Student.create(first_name: "Aimee", last_name: "Knight", cohort_id: test_cohort_1.id) }
+      let(:test_project_1){ Project.create(title: "Test Project 1", language: "Ruby", student_id: aimee.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
       it "should not return any projects" do
-        Project.for_student(aimee)[0].should == nil
+        aimee.projects[0].should == nil
       end
     end
     context "with multiple projects in the database" do
@@ -92,14 +93,14 @@ describe Project do
       let(:aimee){ Student.create(first_name: "Aimee", last_name: "Knight", cohort_id: test_cohort_1.id) }
       let(:jamie){ Student.create(first_name: "Jamie", last_name: "Knight", cohort_id: test_cohort_1.id) }
       let!(:test_project_1){ Project.create(title: "Test Project 1", language: "Ruby", student_id: aimee.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
-      let!(:test_project_2){ Project.create(title: "Test Project 2", language: "Ruby", student_id: aimee.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
-      let!(:test_project_3){ Project.create(title: "Test Project 3", language: "Ruby", student_id: jamie.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
+      let!(:test_project_2){ Project.create(title: "Test Project 2", language: "Ruby", student_id: jamie.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
+      let!(:test_project_3){ Project.create(title: "Test Project 3", language: "Ruby", student_id: aimee.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
       let!(:test_project_4){ Project.create(title: "Test Project 4", language: "Ruby", student_id: jamie.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
       it "should return 2 projects" do
-        Project.for_student(aimee).length.should == 2
+        aimee.projects.length.should == 2
       end
-      it "the should return projects for the student that was passed in" do
-        Project.for_student(aimee)[0].student_id.should == aimee.id
+      it "the should return the correct project title for the students first project" do
+        aimee.projects[0].title.should == "Test Project 1"
       end
     end
   end
@@ -275,6 +276,17 @@ describe Project do
     let(:project){ Project.create(title: "Test Project 1", language: "Ruby", student_id: jamie.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
     it "converts to a string with properties" do
       expect(project.to_s).to eq "ID: #{project.id}, TITLE: Test Project 1, LANGUAGE: Ruby, STUDENT ID: #{jamie.id}, GITHUB URL: www.github.com/example, HOSTED URL: www.example.com"
+    end
+  end
+
+  context ".for_cohort" do
+    let(:test_cohort_1){ Cohort.create(title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14") }
+    let(:aimee){ Student.create(first_name: "Aimee", last_name: "Knight", cohort_id: test_cohort_1.id) }
+    let(:jamie){ Student.create(first_name: "Jamie", last_name: "Knight", cohort_id: test_cohort_1.id) }
+    let!(:test_project_1){ Project.create(title: "Test Project 1", language: "Ruby", student_id: aimee.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
+    let!(:test_project_2){ Project.create(title: "Test Project 2", language: "Ruby", student_id: jamie.id, github_url: "www.github.com/example", hosted_url: "www.example.com") }
+    it "should return 2 projects" do
+      test_cohort_1.projects.length.should == 2
     end
   end
 
