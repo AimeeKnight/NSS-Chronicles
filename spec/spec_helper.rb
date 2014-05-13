@@ -4,10 +4,6 @@ $LOAD_PATH << "models"
 $LOAD_PATH << "controllers"
 
 require 'environment'
-#require 'cohort'
-#require 'cohorts'
-#require 'student'
-#require 'project'
 
 Environment.environment = "test"
 
@@ -27,10 +23,8 @@ RSpec.configure do |config|
   config.color_enabled = true
 
   config.after(:each) do
-    #Environment.database_connection.execute("DELETE FROM cohorts;")
-    #Environment.database_connection.execute("DELETE FROM students;")
-    #Environment.database_connection.execute("DELETE FROM projects;")
     Cohort.destroy_all
+    Student.destroy_all
   end
 end
 
