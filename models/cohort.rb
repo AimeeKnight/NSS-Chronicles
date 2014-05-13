@@ -17,7 +17,7 @@ class Cohort < ActiveRecord::Base
   #end
 
   def to_s
-    "ID: #{@id}, TITLE: #{title}, LANGUAGES: #{languages}, TERM: #{term}"
+    "ID: #{id}, TITLE: #{title}, LANGUAGES: #{languages}, TERM: #{term}"
   end
 
   #def self.all

@@ -369,13 +369,13 @@ describe Student do
     end
   end
 
-  #context "#to_s" do
-  #  let(:test_cohort_2){ Cohort.create(title: "Test Cohort 2", languages: "JS/Ruby", term: "Spring 14") }
-  #  let(:student) { Student.create(first_name: "Aimee", last_name: "Knight", cohort_id: test_cohort_2.id) }
-  #  it "converts to a string with properties" do
-  #    expect(student.to_s).to eq "ID: #{student.id}, FIRST NAME: Aimee, LAST NAME: Knight, COHORT ID: #{test_cohort_2.id}, ALUMNI: false"
-  #  end
-  #end
+  context "#to_s" do
+    let(:test_cohort_2){ Cohort.create(title: "Test Cohort 2", languages: "JS/Ruby", term: "Spring 14") }
+    let(:student) { Student.create(first_name: "Aimee", last_name: "Knight", cohort_id: test_cohort_2.id) }
+    it "converts to a string with properties" do
+      expect(student.to_s).to eq "ID: #{student.id}, FIRST NAME: Aimee, LAST NAME: Knight, COHORT ID: #{test_cohort_2.id}, ALUMNI: false"
+    end
+  end
 
   #context ".join_to_s" do
   #  let(:test_cohort_1){ Cohort.create(title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14" ) }

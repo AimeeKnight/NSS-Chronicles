@@ -2,7 +2,7 @@ require_relative '../spec_helper'
 
 describe "Adding a project" do
   before do
-    project = Project.new("Test Project 1", "Ruby", "1", "www.github.com/example", "www.example.com")
+    project = Project.new(title: "Test Project 1", languages: "Ruby", student_id: 1, github_url: "www.github.com/example", hosted_url: "www.example.com")
     project.save
   end
   context "adding a unique project" do

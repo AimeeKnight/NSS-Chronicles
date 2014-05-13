@@ -1,4 +1,6 @@
 class Student < ActiveRecord::Base
+  has_many :projects
+
   validates :first_name, uniqueness: { message: "already exists." }
   validates :first_name, format: { with: /[a-zA-Z]/, message: "is not a valid student first name, as it does not include any letters." }
   #attr_reader :errors,
@@ -17,7 +19,7 @@ class Student < ActiveRecord::Base
   #end
 
   def to_s
-    "ID: #{@id}, FIRST NAME: #{first_name}, LAST NAME: #{last_name}, COHORT ID: #{cohort_id}, ALUMNI: #{@alumni}"
+    "ID: #{id}, FIRST NAME: #{first_name}, LAST NAME: #{last_name}, COHORT ID: #{cohort_id}, ALUMNI: #{alumni}"
   end
 
   def self.join_to_s(result)

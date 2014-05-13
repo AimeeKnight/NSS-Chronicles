@@ -2,7 +2,7 @@ require_relative '../spec_helper'
 
 describe "Adding a cohort" do
   before do
-    cohort = Cohort.new("Test Cohort 1", "JS/Ruby", "Spring 14")
+    cohort = Cohort.new(title: "Test Cohort 1", languages: "JS/Ruby", term: "Spring 14")
     cohort.save
   end
   context "adding a unique cohort" do

@@ -25,6 +25,7 @@ RSpec.configure do |config|
   config.after(:each) do
     Cohort.destroy_all
     Student.destroy_all
+    Project.destroy_all
   end
 end
 

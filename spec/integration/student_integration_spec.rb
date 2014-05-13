@@ -2,7 +2,7 @@ require_relative '../spec_helper'
 
 describe "Adding a student" do
   before do
-    student = Student.new("Aimee", "Knight", "4")
+    student = Student.new(first_name: "Aimee", last_name: "Knight", cohort_id: 4)
     student.save
   end
   context "adding a unique student" do
