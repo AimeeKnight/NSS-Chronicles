@@ -67,7 +67,7 @@ def show_students
     cohort = Cohort.find_by_id(input[0])
     return unless results?(cohort)
     header_to_s("#{cohort.title} students")
-    Student.for_cohort(cohort).map { |student| puts "#{student.to_s}" }
+    cohort.students.map { |student| puts "#{student.to_s}" }
   when "alumni"
     header_to_s("alumni")
     Student.alumni.map { |student| puts "#{student.to_s}" }
@@ -104,13 +104,13 @@ def show_projects
     cohort = Cohort.find_by_id(input[0])
     return unless results?(cohort)
     header_to_s("#{cohort.title} projects")
-    Student.projects_from_cohort(cohort).map { |project| puts "#{Student.join_to_s(project)}" }
+    cohort.projects.map { |project| puts "#{project.to_s}" }
   when "student"
     name = get_full_name
-    student = Student.find_by_first_and_last_name(name[0].capitalize.chomp!, name[1].capitalize.chomp!)
+    student = Student.find_by_first_and_last_name(name[0].capitalize.chomp!, name[1].capitalize.chomp!).first
     return unless results?(student)
     header_to_s("#{student.first_name} #{student.last_name}'s projects")
-    Project.for_student(student).map { |project| puts "#{project.to_s}" }
+    student.projects.map { |project| puts "#{project.to_s}" }
   when "all"
     header_to_s("projects")
     Project.all.map { |project| puts "#{project.to_s}" }

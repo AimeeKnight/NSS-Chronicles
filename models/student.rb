@@ -10,6 +10,7 @@ class Student < ActiveRecord::Base
     "ID: #{id}, FIRST NAME: #{first_name}, LAST NAME: #{last_name}, COHORT ID: #{cohort_id}, ALUMNI: #{alumni}"
   end
 
+  scope :current, -> { where alumni: false }
   scope :alumni, -> { where alumni: true }
   scope :find_by_first_and_last_name, ->(first_name, last_name) { where first_name: first_name, last_name: last_name }
 
