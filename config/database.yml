@@ -1,0 +1,11 @@
+production:
+  adapter: sqlite3
+  database: db/nss_chronicles_production.sqlite3
+  pool: 5
+  timeout: 5000
+
+test:
+  adapter: sqlite3
+  database: db/nss_chronicles_test.sqlite3
+  pool: 5
+  timeout: 5000
