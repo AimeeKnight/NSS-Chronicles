@@ -50,7 +50,7 @@ def add_student
 end
 
 def show_students
-  puts "Please enter a grouping: <cohort>, <alumni>, <current>, <all> or, press enter to return to the main menu"
+  puts "Please enter a grouping: <cohort>, <alumni>, <current>, <all>, <make alumni> or, press enter to return to the main menu"
   selection = get_selection
   case selection
   when "cohort"
@@ -69,6 +69,11 @@ def show_students
   when "all"
     header_to_s("students")
     Student.all.map { |student| puts "#{student.to_s}"}
+  when "make alumni"
+    name = get_full_name
+    student = Student.find_by_first_and_last_name(name[0].capitalize.chomp!, name[1].capitalize.chomp!)
+    return unless results?(student)
+    student.make_alumni
   else
     get_menu_selection
   end
