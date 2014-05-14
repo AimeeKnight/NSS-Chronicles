@@ -71,7 +71,8 @@ def show_students
     Student.all.map { |student| puts "#{student.to_s}"}
   when "make alumni"
     name = get_full_name
-    student = Student.find_by_first_and_last_name(name[0].capitalize.chomp!, name[1].capitalize.chomp!)
+    student = Student.find_by_first_and_last_name(name[0].chomp, name[1].chomp)
+    puts "#{student}"
     return unless results?(student)
     student.make_alumni
   else
