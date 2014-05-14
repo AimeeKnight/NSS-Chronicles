@@ -40,7 +40,7 @@ EOS
   context "the user selects 4" do
     let(:shell_output){ run_nss_chronicles_with_input("4") }
     it "should print the next menu" do
-      shell_output.should include("Please enter a grouping: <cohort>, <alumni>, <current>, <all> or, press enter to return to the main menu")
+      shell_output.should include("Please enter a grouping: <cohort>, <alumni>, <current>, <all>, <make alumni> or, press enter to return to the main menu")
     end
   end
   context "the user selects 5" do
